@@ -1,0 +1,1235 @@
+{
+ "url": "http://localhost:8000",
+ "at": "2026-10-16T19:32:55.561Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 6,
+   "filled": [
+    0.5,
+    0.56,
+    0.69,
+    0.65,
+    0.74,
+    0.73
+   ],
+   "motion": {
+    "elements": 8,
+    "css": 0,
+    "transitions": 8,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 4945,
+     "screens": 5.5,
+     "words": 780,
+     "img": 8,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 6,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "hero_market.jpg",
+      "pasar_sulbar.jpg",
+      "satgas_pangan.jpg",
+      "field_inspection.jpg",
+      "warehouse.jpg",
+      "operasi_pasar.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": []
+    },
+    "hero": {
+     "text": "Isu pasar viral, ditangani tuntas.",
+     "words": 5,
+     "chars": 34,
+     "lines": 2,
+     "size": 84,
+     "vw": 5.8,
+     "font": "Bricolage Grotesque",
+     "weight": 800,
+     "tracking": -0.04,
+     "leading": 0.96,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.44,
+     "top": 228,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Isu pasar viral, ditangani tuntas.",
+     "words": 5,
+     "lines": 2,
+     "size": 84,
+     "font": "Bricolage Grotesque"
+    },
+    "headings": [
+     {
+      "text": "Isu pasar viral, ditangani tuntas.",
+      "words": 5,
+      "chars": 34,
+      "lines": 2,
+      "size": 84,
+      "vw": 5.8,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 0.96,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 228,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Dokumentasi nyata dari enam kabupaten",
+      "words": 5,
+      "chars": 37,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.8,
+      "top": 997,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Dari postingan viral sampai harga normal",
+      "words": 6,
+      "chars": 40,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.8,
+      "top": 1822,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Siapa mengerjakan apa",
+      "words": 3,
+      "chars": 21,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.8,
+      "top": 3043,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Enam kabupaten, satu sistem",
+      "words": 4,
+      "chars": 27,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.8,
+      "top": 3611,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Setiap langkah tercatat",
+      "words": 3,
+      "chars": 23,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.43,
+      "top": 4381,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 4,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Public Sans",
+       "share": 0.88,
+       "mono": false
+      },
+      {
+       "family": "Bricolage Grotesque",
+       "share": 0.12,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      14,
+      15,
+      16,
+      20,
+      28,
+      84
+     ],
+     "sizeCount": 6,
+     "notLoaded": [],
+     "body": {
+      "font": "Public Sans",
+      "size": 16,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 11.9
+     },
+     "measureChars": 77,
+     "max": {
+      "size": 84,
+      "vw": 5.8,
+      "font": "Bricolage Grotesque",
+      "text": "Isu pasar viral, ditangani tuntas."
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f7faf7",
+     "bodyBgHsl": {
+      "h": 120,
+      "s": 0.23,
+      "l": 0.97
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 3137,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#1b5e20",
+       "top": 4625,
+       "hsl": {
+        "h": 124,
+        "s": 0.55,
+        "l": 0.24
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#1c2b21",
+       "share": 0.52
+      },
+      {
+       "color": "#24382a",
+       "share": 0.27
+      },
+      {
+       "color": "#1b5e20",
+       "share": 0.09
+      },
+      {
+       "color": "#c8e6c9",
+       "share": 0.04
+      },
+      {
+       "color": "#e8f5e9",
+       "share": 0.04
+      }
+     ],
+     "button": {
+      "bg": "#2e7d32",
+      "hsl": {
+       "h": 123,
+       "s": 0.46,
+       "l": 0.34
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 4,
+     "inHero": 3,
+     "radius": 8,
+     "height": 46,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Lewati ke konten utama",
+      "Masuk",
+      "Masuk ke sistem"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 17,
+     "boxRadius": 12,
+     "squareMedia": 0,
+     "roundedMedia": 6,
+     "mediaRadius": 8,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 6,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1942
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 5,
+     "fixed": true,
+     "height": 82,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "bricolage grotesque",
+     "public sans"
+    ]
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 7,
+   "filled": [
+    0.7,
+    0.74,
+    0.79,
+    0.8,
+    0.7,
+    0.86,
+    0.8
+   ],
+   "motion": {
+    "elements": 8,
+    "css": 0,
+    "transitions": 8,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 6808,
+     "screens": 6.6,
+     "words": 780,
+     "img": 8,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 6,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "hero_market.jpg",
+      "pasar_sulbar.jpg",
+      "satgas_pangan.jpg",
+      "field_inspection.jpg",
+      "warehouse.jpg",
+      "operasi_pasar.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": []
+    },
+    "hero": {
+     "text": "Isu pasar viral, ditangani tuntas.",
+     "words": 5,
+     "chars": 34,
+     "lines": 1,
+     "size": 46.1,
+     "vw": 6,
+     "font": "Bricolage Grotesque",
+     "weight": 800,
+     "tracking": -0.04,
+     "leading": 0.96,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.94,
+     "top": 150,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Isu pasar viral, ditangani tuntas.",
+     "words": 5,
+     "lines": 1,
+     "size": 46.1,
+     "font": "Bricolage Grotesque"
+    },
+    "headings": [
+     {
+      "text": "Isu pasar viral, ditangani tuntas.",
+      "words": 5,
+      "chars": 34,
+      "lines": 1,
+      "size": 46.1,
+      "vw": 6,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 0.96,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.94,
+      "top": 150,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Dokumentasi nyata dari enam kabupaten",
+      "words": 5,
+      "chars": 37,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.94,
+      "top": 1335,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Dari postingan viral sampai harga normal",
+      "words": 6,
+      "chars": 40,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.94,
+      "top": 2476,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Siapa mengerjakan apa",
+      "words": 3,
+      "chars": 21,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.94,
+      "top": 4475,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Enam kabupaten, satu sistem",
+      "words": 4,
+      "chars": 27,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.94,
+      "top": 5167,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Setiap langkah tercatat",
+      "words": 3,
+      "chars": 23,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.83,
+      "top": 5924,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 4,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Public Sans",
+       "share": 0.88,
+       "mono": false
+      },
+      {
+       "family": "Bricolage Grotesque",
+       "share": 0.12,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      14,
+      15,
+      16,
+      20,
+      28,
+      46
+     ],
+     "sizeCount": 6,
+     "notLoaded": [],
+     "body": {
+      "font": "Public Sans",
+      "size": 16,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 11.9
+     },
+     "measureChars": 80,
+     "max": {
+      "size": 46.1,
+      "vw": 6,
+      "font": "Bricolage Grotesque",
+      "text": "Isu pasar viral, ditangani tuntas."
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f7faf7",
+     "bodyBgHsl": {
+      "h": 120,
+      "s": 0.23,
+      "l": 0.97
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 431,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#e8f5e9",
+       "top": 5888,
+       "hsl": {
+        "h": 125,
+        "s": 0.39,
+        "l": 0.94
+       }
+      },
+      {
+       "color": "#1b5e20",
+       "top": 6296,
+       "hsl": {
+        "h": 124,
+        "s": 0.55,
+        "l": 0.24
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#1c2b21",
+       "share": 0.52
+      },
+      {
+       "color": "#24382a",
+       "share": 0.27
+      },
+      {
+       "color": "#1b5e20",
+       "share": 0.09
+      },
+      {
+       "color": "#c8e6c9",
+       "share": 0.04
+      },
+      {
+       "color": "#e8f5e9",
+       "share": 0.04
+      }
+     ],
+     "button": {
+      "bg": "#2e7d32",
+      "hsl": {
+       "h": 123,
+       "s": 0.46,
+       "l": 0.34
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 4,
+     "inHero": 3,
+     "radius": 8,
+     "height": 46,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Lewati ke konten utama",
+      "Masuk",
+      "Masuk ke sistem"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 12,
+     "boxRadius": 12,
+     "squareMedia": 0,
+     "roundedMedia": 6,
+     "mediaRadius": 8,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 5,
+     "fixed": true,
+     "height": 94,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "bricolage grotesque",
+     "public sans"
+    ]
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 12,
+   "filled": [
+    0.7,
+    0.73,
+    0.8,
+    0.79,
+    0.76,
+    0.92,
+    0.86,
+    0.73,
+    0.92,
+    0.67,
+    0.68,
+    0.92
+   ],
+   "motion": {
+    "elements": 8,
+    "css": 0,
+    "transitions": 8,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 391,
+     "h": 847
+    },
+    "page": {
+     "height": 9906,
+     "screens": 11.7,
+     "words": 752,
+     "img": 8,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 6,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "hero_market.jpg",
+      "pasar_sulbar.jpg",
+      "satgas_pangan.jpg",
+      "field_inspection.jpg",
+      "warehouse.jpg",
+      "operasi_pasar.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": []
+    },
+    "hero": {
+     "text": "Isu pasar viral, ditangani tuntas.",
+     "words": 5,
+     "chars": 34,
+     "lines": 2,
+     "size": 32,
+     "vw": 8.2,
+     "font": "Bricolage Grotesque",
+     "weight": 800,
+     "tracking": -0.04,
+     "leading": 1.1,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.92,
+     "top": 138,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Isu pasar viral, ditangani tuntas.",
+     "words": 5,
+     "lines": 2,
+     "size": 32,
+     "font": "Bricolage Grotesque"
+    },
+    "headings": [
+     {
+      "text": "Isu pasar viral, ditangani tuntas.",
+      "words": 5,
+      "chars": 34,
+      "lines": 2,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.04,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 138,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Dokumentasi nyata dari enam kabupaten",
+      "words": 5,
+      "chars": 37,
+      "lines": 2,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 1554,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Dari postingan viral sampai harga normal",
+      "words": 6,
+      "chars": 40,
+      "lines": 2,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 3727,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Siapa mengerjakan apa",
+      "words": 3,
+      "chars": 21,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 6518,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Enam kabupaten, satu sistem",
+      "words": 4,
+      "chars": 27,
+      "lines": 2,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 7795,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Setiap langkah tercatat",
+      "words": 3,
+      "chars": 23,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Bricolage Grotesque",
+      "weight": 800,
+      "tracking": -0.03,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 8763,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 4,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Public Sans",
+       "share": 0.88,
+       "mono": false
+      },
+      {
+       "family": "Bricolage Grotesque",
+       "share": 0.12,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      14,
+      15,
+      16,
+      20,
+      28,
+      32
+     ],
+     "sizeCount": 6,
+     "notLoaded": [],
+     "body": {
+      "font": "Public Sans",
+      "size": 16,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 11.9
+     },
+     "measureChars": 39,
+     "max": {
+      "size": 32,
+      "vw": 8.2,
+      "font": "Bricolage Grotesque",
+      "text": "Isu pasar viral, ditangani tuntas."
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f7faf7",
+     "bodyBgHsl": {
+      "h": 120,
+      "s": 0.23,
+      "l": 0.97
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 472,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      },
+      {
+       "color": "#e8f5e9",
+       "top": 8739,
+       "hsl": {
+        "h": 125,
+        "s": 0.39,
+        "l": 0.94
+       }
+      },
+      {
+       "color": "#1b5e20",
+       "top": 9272,
+       "hsl": {
+        "h": 124,
+        "s": 0.55,
+        "l": 0.24
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#1c2b21",
+       "share": 0.51
+      },
+      {
+       "color": "#24382a",
+       "share": 0.27
+      },
+      {
+       "color": "#1b5e20",
+       "share": 0.1
+      },
+      {
+       "color": "#c8e6c9",
+       "share": 0.05
+      },
+      {
+       "color": "#e8f5e9",
+       "share": 0.04
+      }
+     ],
+     "button": {
+      "bg": "#2e7d32",
+      "hsl": {
+       "h": 123,
+       "s": 0.46,
+       "l": 0.34
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 3,
+     "inHero": 2,
+     "radius": 8,
+     "height": 46,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Lewati ke konten utama",
+      "Masuk ke sistem"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 24,
+     "boxRadius": 12,
+     "squareMedia": 0,
+     "roundedMedia": 6,
+     "mediaRadius": 8,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": true,
+     "height": 82,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "bricolage grotesque",
+     "public sans"
+    ]
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "WARN",
+   "id": "still-page",
+   "width": 1440,
+   "message": "Little motion: 8 element(s) moved while the page loaded and scrolled.",
+   "fix": "Give every section an entrance for its parts (not one fade of the whole block) and add one moving picture: a looping clip or a slow move on a photograph."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "C:\\laragon\\www\\sigappasar\\.taste-skill\\inspect-landing\\desktop-fold.jpg",
+   "pages": [
+    "C:\\laragon\\www\\sigappasar\\.taste-skill\\inspect-landing\\desktop-page-01.jpg",
+    "C:\\laragon\\www\\sigappasar\\.taste-skill\\inspect-landing\\desktop-page-02.jpg"
+   ]
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "C:\\laragon\\www\\sigappasar\\.taste-skill\\inspect-landing\\tablet-fold.jpg",
+   "pages": [
+    "C:\\laragon\\www\\sigappasar\\.taste-skill\\inspect-landing\\tablet-page-01.jpg",
+    "C:\\laragon\\www\\sigappasar\\.taste-skill\\inspect-landing\\tablet-page-02.jpg"
+   ]
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "C:\\laragon\\www\\sigappasar\\.taste-skill\\inspect-landing\\mobile-fold.jpg",
+   "pages": [
+    "C:\\laragon\\www\\sigappasar\\.taste-skill\\inspect-landing\\mobile-page-01.jpg",
+    "C:\\laragon\\www\\sigappasar\\.taste-skill\\inspect-landing\\mobile-page-02.jpg"
+   ]
+  }
+ ]
+}
