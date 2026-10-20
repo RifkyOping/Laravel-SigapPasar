@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,7 +8,7 @@
    SIGAP PASAR — Design System
    Tone: Technical-civic, bold precision
    Palette: Forest Green #2e7d32 · Deep forest ground · Chalk ink
-   Type: DM Sans (text) + Space Grotesk (display)
+   Type: Poppins
 ═══════════════════════════════════════════════════ */
 
 @layer base {
@@ -46,8 +46,8 @@
     --clr-kritis:  #EF4444;
 
     /* Type */
-    --font-display: 'Space Grotesk', system-ui, sans-serif;
-    --font-body:    'DM Sans', system-ui, sans-serif;
+    --font-display: 'Poppins', system-ui, -apple-system, sans-serif;
+    --font-body:    'Poppins', system-ui, -apple-system, sans-serif;
 
     /* Spacing rhythm */
     --space-section: 4rem;

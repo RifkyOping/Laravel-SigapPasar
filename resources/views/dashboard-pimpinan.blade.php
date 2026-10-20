@@ -533,7 +533,7 @@
                 }).addTo(map);
 
                 const popupHtml = `
-                    <div style="font-family: system-ui, sans-serif; padding: 4px; min-width: 180px;">
+                    <div style="font-family: 'Poppins', system-ui, sans-serif; padding: 4px; min-width: 180px;">
                         <h4 style="margin: 0 0 6px; font-size: 14px; font-weight: 700; color: #f8fafc;">${kab.name}</h4>
                         <div style="font-size: 12px; margin-bottom: 4px; color: #cbd5e1;">Status: <b style="color:${markerColor}; text-transform:uppercase;">${kab.status_level}</b></div>
                         <div style="font-size: 12px; margin-bottom: 4px; color: #cbd5e1;">Isu Aktif: <b>${kab.isu_aktif}</b></div>
@@ -556,7 +556,7 @@
                 }).addTo(map);
 
                 const pinHtml = `
-                    <div style="font-family: system-ui, sans-serif; padding: 4px; min-width: 170px;">
+                    <div style="font-family: 'Poppins', system-ui, sans-serif; padding: 4px; min-width: 170px;">
                         <div style="font-size: 10px; font-weight: 700; color: #38bdf8; text-transform:uppercase;">Inspeksi Lapangan</div>
                         <h5 style="margin: 2px 0 4px; font-size: 13px; font-weight: 700; color: #ffffff;">${tp.komoditas}</h5>
                         <div style="font-size: 11px; color: #e2e8f0;">Lokasi: ${tp.lokasi}</div>

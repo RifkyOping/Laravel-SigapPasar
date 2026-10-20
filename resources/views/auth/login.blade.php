@@ -12,8 +12,8 @@
             --color-bg:           #f7faf7;   /* Kertas */
             --color-ink:          #0f172a;   /* Tinta Utama Slate-900 */
             --color-ink-muted:    #334155;   /* Tinta Sekunder Slate-700 (Kontras Tinggi) */
-            --font-heading:       'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
-            --font-body:          'Public Sans', system-ui, -apple-system, sans-serif;
+            --font-heading:       'Poppins', system-ui, -apple-system, sans-serif;
+            --font-body:          'Poppins', system-ui, -apple-system, sans-serif;
         }
 
         body {
@@ -29,33 +29,39 @@
         .login-page-grid {
             display: grid;
             grid-template-columns: 1.05fr 0.95fr;
+            height: 100vh;
             min-height: 100vh;
             background-color: var(--color-bg);
+            overflow: hidden;
         }
 
         /* ─── Kolom Kiri: Formulir Kedinasan ─── */
         .login-pane-form {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 48px 64px;
+            justify-content: flex-start;
+            padding: 24px 52px;
             background: #ffffff;
             border-right: 2px solid var(--color-surface);
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         .login-nav-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
         }
 
         .login-back-link {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--color-primary);
             text-decoration: underline;
-            text-underline-offset: 4px;
+            text-underline-offset: 3px;
             transition: color 0.15s ease;
         }
 
@@ -64,68 +70,69 @@
         }
 
         .login-form-inner {
-            max-width: 480px;
+            max-width: 450px;
             width: 100%;
-            margin: 0 auto;
+            margin: auto auto;
+            flex-shrink: 0;
         }
 
         .brand-logo-only {
             display: block;
-            height: 52px;
+            height: 44px;
             width: auto;
             object-fit: contain;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .login-heading {
             font-family: var(--font-heading);
-            font-size: clamp(42px, 5.2vw, 72px);
+            font-size: clamp(30px, 2.6vw, 42px);
             font-weight: 800;
             color: var(--color-ink);
-            letter-spacing: -0.04em;
-            line-height: 0.96;
-            margin-bottom: 16px;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 10px;
         }
 
         .login-lead {
-            font-size: 16px;
+            font-size: 14px;
             color: var(--color-ink-muted);
-            line-height: 1.55;
-            margin-bottom: 28px;
-            max-width: 54ch;
+            line-height: 1.5;
+            margin-bottom: 18px;
+            max-width: 52ch;
         }
 
         .status-alert {
             background-color: var(--color-surface);
             color: var(--color-primary-dark);
-            padding: 14px 18px;
+            padding: 10px 14px;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 13.5px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .form-row {
-            margin-bottom: 20px;
+            margin-bottom: 13px;
         }
 
         .form-label {
             display: block;
-            font-size: 16px;
+            font-size: 13.5px;
             font-weight: 700;
             color: var(--color-ink);
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .label-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .forgot-link {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--color-primary);
             text-decoration: underline;
@@ -138,13 +145,13 @@
 
         .form-input-field {
             width: 100%;
-            height: 50px;
-            padding: 12px 16px;
+            height: 44px;
+            padding: 9px 15px;
             font-family: var(--font-body);
-            font-size: 16px;
+            font-size: 14px;
             color: var(--color-ink);
             background: #ffffff;
-            border: 2px solid var(--color-surface);
+            border: 1.5px solid var(--color-surface);
             border-radius: 8px;
             outline: none;
             transition: border-color 0.15s ease;
@@ -157,30 +164,30 @@
 
         .form-error {
             color: #b71c1c;
-            font-size: 16px;
+            font-size: 12.5px;
             font-weight: 600;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         .remember-wrap {
             display: flex;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 15px;
         }
 
         .remember-label {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            font-size: 16px;
+            gap: 9px;
+            font-size: 13.5px;
             font-weight: 500;
             color: var(--color-ink-muted);
             cursor: pointer;
         }
 
         .remember-checkbox {
-            width: 18px;
-            height: 18px;
+            width: 17px;
+            height: 17px;
             accent-color: var(--color-primary);
             cursor: pointer;
         }
@@ -190,11 +197,11 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            height: 52px;
+            height: 46px;
             background: var(--color-primary);
             color: #ffffff;
             font-family: var(--font-body);
-            font-size: 16px;
+            font-size: 14.5px;
             font-weight: 700;
             border: none;
             border-radius: 8px;
@@ -205,54 +212,49 @@
 
         .btn-submit-login:hover {
             background: var(--color-primary-dark);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .btn-submit-login:active {
             transform: translateY(0);
         }
 
-        .security-footer {
-            margin-top: 32px;
-            font-size: 16px;
-            color: var(--color-ink-muted);
-            line-height: 1.55;
-            border-top: 2px solid var(--color-surface);
-            padding-top: 16px;
-            max-width: 54ch;
-        }
-
         /* ─── Kolom Kanan: Panel Pusat Kendali Komando & Protokol (Bukan Gambar) ─── */
         .login-pane-visual {
             background: linear-gradient(145deg, #f3f8f3 0%, #e8f5e9 100%);
-            padding: 48px;
+            padding: 24px 38px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            overflow-y: auto;
             border-left: 1px solid #d0e7d2;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         .command-panel-card {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 11px;
+            max-width: 560px;
+            margin: auto;
+            width: 100%;
         }
 
         .command-status-header {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             background: #ffffff;
             border: 1px solid #bbf7d0;
-            padding: 6px 14px;
+            padding: 4px 12px;
             border-radius: 999px;
             align-self: flex-start;
         }
 
         .pulse-indicator {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: #16a34a;
             box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
@@ -266,7 +268,7 @@
             }
             70% {
                 transform: scale(1);
-                box-shadow: 0 0 0 6px rgba(22, 163, 74, 0);
+                box-shadow: 0 0 0 5px rgba(22, 163, 74, 0);
             }
             100% {
                 transform: scale(0.95);
@@ -275,7 +277,7 @@
         }
 
         .command-status-text {
-            font-size: 13px;
+            font-size: 11.5px;
             font-weight: 700;
             color: var(--color-primary-dark);
             letter-spacing: 0.02em;
@@ -288,160 +290,168 @@
 
         .visual-title {
             font-family: var(--font-heading);
-            font-size: 26px;
+            font-size: 21px;
             font-weight: 800;
             color: var(--color-ink);
             line-height: 1.25;
             letter-spacing: -0.02em;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .visual-desc {
-            font-size: 15px;
+            font-size: 13px;
             color: var(--color-ink-muted);
-            line-height: 1.55;
+            line-height: 1.45;
             max-width: 58ch;
         }
 
         .command-stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
+            gap: 8px;
         }
 
         .command-stat-item {
             background: #ffffff;
             border: 1.5px solid #d6ebd7;
-            border-radius: 10px;
-            padding: 16px 18px;
+            border-radius: 8px;
+            padding: 9px 13px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
             transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
         .command-stat-item:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             border-color: var(--color-primary);
-            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.07);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.07);
         }
 
         .command-stat-num {
             font-family: var(--font-heading);
-            font-size: 22px;
+            font-size: 17px;
             font-weight: 800;
             color: var(--color-primary);
             line-height: 1.1;
         }
 
         .command-stat-lbl {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--color-ink);
         }
 
         .command-stat-sub {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--color-ink-muted);
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
         .command-protocol-box {
             background: #ffffff;
             border: 1.5px solid #d6ebd7;
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 8px;
+            padding: 11px 15px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 6px;
         }
 
         .command-protocol-title {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-family: var(--font-heading);
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 800;
             color: var(--color-primary-dark);
-            padding-bottom: 8px;
+            padding-bottom: 5px;
             border-bottom: 1px dashed #d6ebd7;
         }
 
         .command-protocol-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 5px;
         }
 
         .command-protocol-item {
             display: flex;
             align-items: flex-start;
-            gap: 10px;
-            font-size: 13px;
+            gap: 8px;
+            font-size: 11.8px;
             color: var(--color-ink);
-            line-height: 1.5;
+            line-height: 1.38;
         }
 
         .protocol-icon-dot {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: var(--color-primary);
             flex-shrink: 0;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         .command-security-notice {
             background: rgba(255, 255, 255, 0.75);
             border: 1px solid #c8e6c9;
-            padding: 12px 16px;
-            border-radius: 8px;
+            padding: 7px 13px;
+            border-radius: 6px;
         }
 
         .security-notice-text {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 12px;
+            gap: 7px;
+            font-size: 11.5px;
             color: var(--color-ink-muted);
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
         .security-notice-text svg {
             color: var(--color-primary);
             flex-shrink: 0;
+            width: 14px;
+            height: 14px;
+        }
+
+        /* ─── Kunci No-Scroll di Desktop ─── */
+        @media (min-width: 1025px) {
+            html, body {
+                height: 100vh;
+                overflow: hidden !important;
+            }
         }
 
         /* ─── Responsif Mobile ─── */
         @media (max-width: 1024px) {
             .login-page-grid {
                 grid-template-columns: 1fr;
+                min-height: 100vh;
+                height: auto;
+                overflow: visible;
             }
             .login-pane-form {
                 border-right: none;
-                padding: 40px 24px;
+                padding: 24px 20px;
+                min-height: 100vh;
+                height: auto;
+                overflow: visible;
             }
             .login-pane-visual {
-                padding: 40px 24px;
-                border-top: 2px solid var(--color-surface);
-                border-left: none;
+                display: none !important;
             }
         }
 
         @media (max-width: 640px) {
             .login-heading {
-                font-size: 28px;
+                font-size: 26px;
                 line-height: 1.1;
             }
-            .command-stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .login-pane-form, .login-pane-visual {
-                padding: 24px 16px;
-            }
-            .visual-title {
-                font-size: 22px;
+            .login-pane-form {
+                padding: 20px 16px;
             }
         }
 
@@ -450,9 +460,9 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 7px 14px;
+            padding: 5px 12px;
             border-radius: 999px;
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -693,9 +703,6 @@
                 </form>
             </div>
 
-            <footer class="security-footer animate-in">
-                Akses terbatas hanya untuk aparatur Diskoperindag Prov. Sulbar dan Satgas Pangan Daerah. Setiap aktivitas masuk tercatat dalam jejak audit.
-            </footer>
         </main>
 
         <!-- Kolom Kanan: Panel Pusat Kendali Komando & Protokol Ketahanan Pangan (Bukan Gambar) -->

@@ -12,7 +12,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
     <script>
         (function() {
             try {
@@ -39,8 +39,8 @@
             --color-ink-muted:    #334155;   /* Tinta Sekunder Slate-700 (Kontras Tinggi) */
             
             /* Tipografi */
-            --font-heading: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
-            --font-body:    'Public Sans', system-ui, -apple-system, sans-serif;
+            --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
+            --font-body:    'Poppins', system-ui, -apple-system, sans-serif;
             
             /* Skala Presisi README (15 / 16 / 20 / 28 / 84 px) */
             --step-display: clamp(38px, 6vw, 84px);
@@ -189,7 +189,7 @@
         }
 
         .btn-header-login {
-            display: inline-flex;
+            display: none;
             align-items: center;
             justify-content: center;
             background: var(--color-primary);
@@ -200,7 +200,39 @@
             font-weight: 700;
             border-radius: var(--radius-base);
             text-decoration: none;
-            transition: background 0.15s ease, transform 0.1s ease;
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+
+        .btn-header-login.is-visible {
+            display: inline-flex;
+            animation: headerBtnFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .btn-header-login.is-hiding {
+            display: inline-flex;
+            animation: headerBtnFadeOut 0.18s ease forwards;
+        }
+
+        @keyframes headerBtnFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes headerBtnFadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-4px) scale(0.96);
+            }
         }
 
         .btn-header-login:hover {
@@ -265,18 +297,7 @@
             transform: translateY(-2px);
         }
 
-        .hero-link-alur {
-            font-size: var(--step-body);
-            font-weight: 700;
-            color: var(--color-primary);
-            text-decoration: underline;
-            text-underline-offset: 4px;
-            transition: color 0.15s ease;
-        }
 
-        .hero-link-alur:hover {
-            color: var(--color-primary-dark);
-        }
 
         /* ─── Kartu Jalur Penanganan (Hero Kanan) ─── */
         .case-card {
@@ -450,246 +471,6 @@
             font-weight: 500;
             color: var(--color-ink-muted);
             line-height: 1.4;
-        }
-
-        /* ─── 03. Pilar Operasional & Standar Kecepatan Penanganan (SLA) ─── */
-        .section-pilar {
-            padding: 56px 0;
-            border-top: 2px solid var(--color-surface);
-        }
-
-        .section-badge-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 12px;
-            background: var(--color-surface);
-            color: var(--color-primary-dark);
-            border-radius: 999px;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .pilar-metric-banner {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .pilar-metric-card {
-            background: #ffffff;
-            border: 2px solid var(--color-surface);
-            border-radius: var(--radius-base);
-            padding: 18px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .pilar-metric-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--color-accent);
-            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.08);
-        }
-
-        .pilar-metric-val {
-            font-family: var(--font-heading);
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--color-primary);
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-        }
-
-        .pilar-metric-label {
-            font-size: var(--step-small);
-            font-weight: 700;
-            color: var(--color-ink);
-            line-height: 1.3;
-        }
-
-        .pilar-metric-sub {
-            font-size: 13px;
-            color: var(--color-ink-muted);
-            line-height: 1.4;
-        }
-
-        .pilar-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-bottom: 28px;
-        }
-
-        .pilar-card {
-            background: #ffffff;
-            border: 2px solid var(--color-surface);
-            border-radius: var(--radius-panel);
-            padding: 26px 28px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .pilar-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--color-primary);
-            box-shadow: 0 10px 28px rgba(46, 125, 50, 0.08);
-        }
-
-        .pilar-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .pilar-card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            background: var(--color-surface);
-            color: var(--color-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .pilar-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 10px;
-            background: var(--color-surface);
-            color: var(--color-primary-dark);
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-        }
-
-        .pilar-card-title {
-            font-family: var(--font-heading);
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--color-ink);
-            letter-spacing: -0.01em;
-            line-height: 1.3;
-        }
-
-        .pilar-card-desc {
-            font-size: 15px;
-            color: var(--color-ink-muted);
-            line-height: 1.55;
-        }
-
-        .pilar-card-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding-top: 10px;
-            border-top: 1px dashed var(--color-surface);
-        }
-
-        .pilar-card-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--color-ink);
-            line-height: 1.45;
-        }
-
-        .pilar-card-list li svg {
-            color: var(--color-primary);
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .pilar-sla-strip {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            border: 2px solid #bbf7d0;
-            border-radius: var(--radius-panel);
-            padding: 24px 28px;
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 24px;
-            align-items: center;
-        }
-
-        .pilar-sla-title {
-            font-family: var(--font-heading);
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--color-primary-dark);
-            line-height: 1.3;
-        }
-
-        .pilar-sla-desc {
-            font-size: 13px;
-            color: var(--color-ink-muted);
-            margin-top: 4px;
-        }
-
-        .pilar-sla-steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .pilar-sla-step-item {
-            background: #ffffff;
-            border: 1px solid #86efac;
-            border-radius: var(--radius-base);
-            padding: 10px 12px;
-            text-align: center;
-        }
-
-        .pilar-sla-time {
-            font-family: var(--font-heading);
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--color-primary);
-        }
-
-        .pilar-sla-label {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--color-ink-muted);
-            margin-top: 2px;
-            text-transform: uppercase;
-        }
-
-        @media (max-width: 900px) {
-            .pilar-metric-banner {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .pilar-grid {
-                grid-template-columns: 1fr;
-            }
-            .pilar-sla-strip {
-                grid-template-columns: 1fr;
-            }
-            .pilar-sla-steps {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 540px) {
-            .pilar-metric-banner {
-                grid-template-columns: 1fr;
-            }
-            .pilar-sla-steps {
-                grid-template-columns: 1fr;
-            }
         }
 
         /* ─── 04. Alur Penanganan 6 Tahap ─── */
@@ -1024,24 +805,7 @@
             gap: 18px;
         }
 
-        .btn-footer-login {
-            display: inline-flex;
-            align-items: center;
-            background: #ffffff;
-            color: var(--color-primary-dark) !important;
-            padding: 12px 24px;
-            min-height: 46px;
-            font-size: var(--step-body);
-            font-weight: 700;
-            border-radius: var(--radius-base);
-            text-decoration: none;
-            transition: background 0.15s ease, transform 0.1s ease;
-        }
 
-        .btn-footer-login:hover {
-            background: var(--color-surface);
-            transform: translateY(-2px);
-        }
 
         .footer-bottom {
             padding-top: 24px;
@@ -1065,7 +829,9 @@
 
         @media (max-width: 640px) {
             .container { padding: 0 16px; }
-            .header-nav { display: none; }
+            .header-nav-link { display: none; }
+            .header-nav { gap: 10px; }
+            .btn-header-login { padding: 7px 15px; min-height: 36px; font-size: 13px; }
             .hero-title { font-size: 32px; line-height: 1.1; }
             .hero-lead { font-size: var(--step-body); }
             .gallery-grid { grid-template-columns: 1fr; }
@@ -1235,76 +1001,6 @@
             color: #F0F4FF !important;
         }
 
-        html[data-theme="dark"] .pilar-card {
-            background: #111a28 !important;
-            border-color: rgba(240, 244, 255, 0.1) !important;
-        }
-
-        html[data-theme="dark"] .pilar-card:hover {
-            border-color: #4caf50 !important;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4) !important;
-        }
-
-        html[data-theme="dark"] .pilar-card-icon {
-            background: #162438 !important;
-            color: #81c784 !important;
-        }
-
-        html[data-theme="dark"] .pilar-card-title {
-            color: #F0F4FF !important;
-        }
-
-        html[data-theme="dark"] .pilar-card-desc {
-            color: #9BA8C2 !important;
-        }
-
-        html[data-theme="dark"] .pilar-card-list {
-            border-top-color: rgba(240, 244, 255, 0.08) !important;
-        }
-
-        html[data-theme="dark"] .pilar-card-list li {
-            color: #E2E8F0 !important;
-        }
-
-        html[data-theme="dark"] .pilar-badge {
-            background: #162438 !important;
-            color: #81c784 !important;
-        }
-
-        html[data-theme="dark"] .pilar-metric-banner {
-            background: #111a28 !important;
-            border-color: rgba(240, 244, 255, 0.1) !important;
-        }
-
-        html[data-theme="dark"] .pilar-metric-item:not(:last-child) {
-            border-right-color: rgba(240, 244, 255, 0.08) !important;
-        }
-
-        html[data-theme="dark"] .pilar-metric-num {
-            color: #81c784 !important;
-        }
-
-        html[data-theme="dark"] .pilar-metric-lbl {
-            color: #F0F4FF !important;
-        }
-
-        html[data-theme="dark"] .pilar-metric-sub {
-            color: #9BA8C2 !important;
-        }
-
-        html[data-theme="dark"] .pilar-sla-strip {
-            background: linear-gradient(135deg, #13221b 0%, #0d1a29 100%) !important;
-            border-color: #2e7d32 !important;
-        }
-
-        html[data-theme="dark"] .pilar-sla-title {
-            color: #a5d6a7 !important;
-        }
-
-        html[data-theme="dark"] .pilar-sla-step-item {
-            background: #162438 !important;
-            border-color: rgba(76, 175, 80, 0.3) !important;
-        }
 
         html[data-theme="dark"] .timeline-card {
             background: #111a28 !important;
@@ -1378,10 +1074,7 @@
             border-top: 1px solid rgba(240, 244, 255, 0.08) !important;
         }
 
-        html[data-theme="dark"] .btn-footer-login {
-            background: #2e7d32 !important;
-            color: #ffffff !important;
-        }
+
 
         html[data-theme="dark"] .hero-title {
             color: #F0F4FF !important;
@@ -1391,16 +1084,9 @@
             color: #9BA8C2 !important;
         }
 
-        html[data-theme="dark"] .hero-link-alur {
-            color: #81c784 !important;
-        }
 
-        html[data-theme="dark"] .hero-link-alur:hover {
-            color: #a5d6a7 !important;
-        }
 
         html[data-theme="dark"] .section-alur,
-        html[data-theme="dark"] .section-pilar,
         html[data-theme="dark"] .section-peran,
         html[data-theme="dark"] .section-wilayah,
         html[data-theme="dark"] .section-audit {
@@ -1428,14 +1114,13 @@
                 <nav class="header-nav" aria-label="Navigasi Halaman">
                     <a href="#alur" class="header-nav-link">Alur Penanganan</a>
                     <a href="#peran" class="header-nav-link">Peran</a>
-                    <a href="#wilayah" class="header-nav-link">Wilayah</a>
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="btn-header-login">
+                            <a href="{{ url('/dashboard') }}" class="btn-header-login" id="header-login-btn">
                                 Dashboard
                             </a>
                         @else
-                            <a href="{{ route('login') }}" class="btn-header-login">
+                            <a href="{{ route('login') }}" class="btn-header-login" id="header-login-btn">
                                 Masuk
                             </a>
                         @endauth
@@ -1460,17 +1145,14 @@
                 <!-- Kolom Kiri -->
                 <div>
                     <h1 class="hero-title">
-                        Isu pasar viral, ditangani tuntas.
+                        SIGAP PASAR
                     </h1>
                     <p class="hero-lead">
-                        SIGAP PASAR menghubungkan pantauan media sosial dengan pengecekan langsung di pasar di enam kabupaten Sulawesi Barat.
+                        Membantu menghubungkan pantauan media sosial dengan pengecekan langsung di pasar di enam kabupaten Sulawesi Barat.
                     </p>
                     <nav class="hero-actions" aria-label="Aksi Utama">
-                        <a href="{{ route('login') }}" class="btn-primary-hero">
+                        <a href="{{ route('login') }}" class="btn-primary-hero" id="hero-login-btn">
                             Masuk ke sistem
-                        </a>
-                        <a href="#alur" class="hero-link-alur">
-                            Lihat alur penanganan &rarr;
                         </a>
                     </nav>
                 </div>
@@ -1567,170 +1249,6 @@
             </div>
         </section>
 
-        <!-- [03. Pilar Operasional & Standar Kecepatan Penanganan (SLA)] -->
-        <section class="section-pilar" aria-label="Pilar Operasional dan Standar Respon Ketahanan Pangan">
-            <div class="container">
-                <header class="section-header-block">
-                    <span class="section-badge-pill">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        Tata Kelola & Standar Kecepatan Penanganan
-                    </span>
-                    <h2 class="section-title">Empat pilar kendali pangan & kecepatan respon terpadu</h2>
-                    <p class="section-desc">
-                        Standar operasional baku dalam memantau sentimen linimasa, memvalidasi bukti faktual lapangan, hingga mengeksekusi stabilisasi harga komoditas pangan di seluruh Sulawesi Barat.
-                    </p>
-                </header>
-
-                <!-- Banner 4 Metrik Kunci Operasional -->
-                <div class="pilar-metric-banner">
-                    <div class="pilar-metric-card">
-                        <span class="pilar-metric-val">6 Wilayah</span>
-                        <span class="pilar-metric-label">Cakupan Kabupaten</span>
-                        <span class="pilar-metric-sub">Mamuju, Majene, Polman, Mamasa, Pasangkayu, Mateng</span>
-                    </div>
-                    <div class="pilar-metric-card">
-                        <span class="pilar-metric-val">&lt; 15 Menit</span>
-                        <span class="pilar-metric-label">Deteksi Awal Siber</span>
-                        <span class="pilar-metric-sub">Algoritma otomatis pembaca keluhan linimasa media sosial</span>
-                    </div>
-                    <div class="pilar-metric-card">
-                        <span class="pilar-metric-val">100% Valid</span>
-                        <span class="pilar-metric-label">Verifikasi Geospasial</span>
-                        <span class="pilar-metric-sub">Wajib check-in koordinat GPS riil di kios pedagang</span>
-                    </div>
-                    <div class="pilar-metric-card">
-                        <span class="pilar-metric-val">EWS HET</span>
-                        <span class="pilar-metric-label">Peringatan Dini Disparitas</span>
-                        <span class="pilar-metric-sub">Notifikasi deviasi jika harga melewati acuan Bapanas</span>
-                    </div>
-                </div>
-
-                <!-- 4 Pilar Tata Kelola Komando -->
-                <div class="pilar-grid">
-                    <!-- Pilar 1 -->
-                    <div class="pilar-card">
-                        <div class="pilar-card-header">
-                            <div class="pilar-card-icon">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                            </div>
-                            <span class="pilar-badge">Deteksi Cepat</span>
-                        </div>
-                        <h3 class="pilar-card-title">Radar Siber & Pengukuran Virality Score</h3>
-                        <p class="pilar-card-desc">
-                            Pengawas memantau kanal percakapan warga (TikTok, X, FB, IG) secara berkelanjutan. Sistem secara otomatis menghitung skor viralitas berdasarkan jumlah interaksi dan mention, menyaring isu nyata dari sekadar rumor.
-                        </p>
-                        <ul class="pilar-card-list">
-                            <li>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span>Penyaringan otomatis engagement & validasi tautan sumber</span>
-                            </li>
-                            <li>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span>Pencegahan kepanikan publik sebelum disparitas harga meluas</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Pilar 2 -->
-                    <div class="pilar-card">
-                        <div class="pilar-card-header">
-                            <div class="pilar-card-icon">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                            </div>
-                            <span class="pilar-badge">Integritas Fisik</span>
-                        </div>
-                        <h3 class="pilar-card-title">Audit Lapangan & Geotagging Berbasis GPS</h3>
-                        <p class="pilar-card-desc">
-                            Admin menugaskan Petugas terdekat dengan surat tugas dinas elektronik. Petugas wajib mengunggah bukti faktual, mengecek keakuratan timbangan, dan mencatatkan koordinat GPS nyata di lokasi pasar tradisional.
-                        </p>
-                        <ul class="pilar-card-list">
-                            <li>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span>Validasi radius GPS lokasi pasar untuk mencegah laporan palsu</span>
-                            </li>
-                            <li>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span>Pencatatan harga aktual riil pedagang per komoditas</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Pilar 3 -->
-                    <div class="pilar-card">
-                        <div class="pilar-card-header">
-                            <div class="pilar-card-icon">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                            </div>
-                            <span class="pilar-badge">Peringatan Dini</span>
-                        </div>
-                        <h3 class="pilar-card-title">Early Warning System (EWS) Fluktuasi HET</h3>
-                        <p class="pilar-card-desc">
-                            Data harga impor berkala dan hasil survei pasar dianalisis terhadap Harga Eceran Tertinggi (HET) acuan pemerintah. Deviasi abnormal memicu peringatan otomatis berkode warna (Normal, Waspada, Kritis) untuk respon segera.
-                        </p>
-                        <ul class="pilar-card-list">
-                            <li>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span>Komparasi otomatis terhadap 18+ varian komoditas pangan pokok</span>
-                            </li>
-                            <li>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span>Analisis tren kenaikan harian, mingguan, bulanan, dan tahunan</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Pilar 4 -->
-                    <div class="pilar-card">
-                        <div class="pilar-card-header">
-                            <div class="pilar-card-icon">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                            </div>
-                            <span class="pilar-badge">Rantai Komando</span>
-                        </div>
-                        <h3 class="pilar-card-title">Intervensi Pasar Terukur & Resolusi Tuntas</h3>
-                        <p class="pilar-card-desc">
-                            Pimpinan daerah dan Tim Satgas Pangan menerima ringkasan eksekutif secara real-time untuk mengeksekusi langkah stabilisasi: operasi pasar pangan murah bersubsidi, koordinasi distributor, hingga penyaluran beras SPHP Bulog.
-                        </p>
-                        <ul class="pilar-card-list">
-                            <li>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span>SOP intervensi terpadu lintas instansi dan Satgas Pangan</span>
-                            </li>
-                            <li>
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span>Pelaporan dampak penurunan harga paska-intervensi</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Pita Standar SLA Waktu Respon -->
-                <div class="pilar-sla-strip">
-                    <div>
-                        <div class="pilar-sla-title">Standar Waktu Respon Operasional (SLA)</div>
-                        <div class="pilar-sla-desc">Komitmen kecepatan tindak lanjut dari pendeteksian isu siber hingga stabilisasi harga di lapangan.</div>
-                    </div>
-                    <div class="pilar-sla-steps">
-                        <div class="pilar-sla-step-item">
-                            <div class="pilar-sla-time">&le; 15 Mnt</div>
-                            <div class="pilar-sla-label">Deteksi Siber</div>
-                        </div>
-                        <div class="pilar-sla-step-item">
-                            <div class="pilar-sla-time">&le; 2 Jam</div>
-                            <div class="pilar-sla-label">Verifikasi Data</div>
-                        </div>
-                        <div class="pilar-sla-step-item">
-                            <div class="pilar-sla-time">&le; 4 Jam</div>
-                            <div class="pilar-sla-label">Tugas Lapangan</div>
-                        </div>
-                        <div class="pilar-sla-step-item">
-                            <div class="pilar-sla-time">&le; 24 Jam</div>
-                            <div class="pilar-sla-label">Resolusi Selesai</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- [04. Alur Penanganan 6 Tahap Sesuai README Bagian 3] -->
         <section id="alur" class="section-alur" aria-label="Alur Penanganan Isu Pasar">
@@ -1959,120 +1477,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- [06. Wilayah - 6 Kabupaten] -->
-        <section id="wilayah" class="section-wilayah" aria-label="Wilayah Pengawasan Enam Kabupaten">
-            <div class="container">
-                <header class="section-header-block">
-                    <h2 class="section-title">Enam kabupaten, satu sistem</h2>
-                    <p class="section-desc">
-                        Pengawasan komoditas pangan pokok terpadu di seluruh wilayah administratif Provinsi Sulawesi Barat.
-                    </p>
-                </header>
-
-                <div class="wilayah-table-wrap">
-                    <table class="wilayah-table" role="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" style="width: 55%;">Kabupaten</th>
-                                <th scope="col" style="width: 45%;">Status Isu Aktif Terpantau</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="wilayah-nama">Kabupaten Mamuju</div>
-                                </td>
-                                <td>
-                                    <span class="wilayah-count">
-                                        {{ isset($kabupatenList) && $kabupatenList->firstWhere('name', 'Kabupaten Mamuju') ? $kabupatenList->firstWhere('name', 'Kabupaten Mamuju')->issues_count : 0 }} Isu aktif
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="wilayah-nama">Kabupaten Majene</div>
-                                </td>
-                                <td>
-                                    <span class="wilayah-count">
-                                        {{ isset($kabupatenList) && $kabupatenList->firstWhere('name', 'Kabupaten Majene') ? $kabupatenList->firstWhere('name', 'Kabupaten Majene')->issues_count : 0 }} Isu aktif
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="wilayah-nama">Kabupaten Polewali Mandar</div>
-                                </td>
-                                <td>
-                                    <span class="wilayah-count">
-                                        {{ isset($kabupatenList) && $kabupatenList->firstWhere('name', 'Kabupaten Polewali Mandar') ? $kabupatenList->firstWhere('name', 'Kabupaten Polewali Mandar')->issues_count : 0 }} Isu aktif
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="wilayah-nama">Kabupaten Mamasa</div>
-                                </td>
-                                <td>
-                                    <span class="wilayah-count">
-                                        {{ isset($kabupatenList) && $kabupatenList->firstWhere('name', 'Kabupaten Mamasa') ? $kabupatenList->firstWhere('name', 'Kabupaten Mamasa')->issues_count : 0 }} Isu aktif
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="wilayah-nama">Kabupaten Pasangkayu</div>
-                                </td>
-                                <td>
-                                    <span class="wilayah-count">
-                                        {{ isset($kabupatenList) && $kabupatenList->firstWhere('name', 'Kabupaten Pasangkayu') ? $kabupatenList->firstWhere('name', 'Kabupaten Pasangkayu')->issues_count : 0 }} Isu aktif
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="wilayah-nama">Kabupaten Mamuju Tengah</div>
-                                </td>
-                                <td>
-                                    <span class="wilayah-count">
-                                        {{ isset($kabupatenList) && $kabupatenList->firstWhere('name', 'Kabupaten Mamuju Tengah') ? $kabupatenList->firstWhere('name', 'Kabupaten Mamuju Tengah')->issues_count : 0 }} Isu aktif
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- [07. Jejak Audit - Satu Panel Surface #e8f5e9] -->
-        <section class="section-audit" aria-label="Jejak Audit dan Notifikasi Penugasan">
-            <div class="container">
-                <div class="audit-panel">
-                    <div>
-                        <div class="audit-title">Setiap langkah tercatat</div>
-                        <p class="audit-desc">
-                            Untuk menjamin akuntabilitas aparatur, sistem SIGAP PASAR merekam jejak audit lengkap pada setiap tahapan penanganan isu. Siapa yang menginput, siapa yang memverifikasi, hingga kapan harga dilaporkan kembali normal selalu terekam tanpa bisa diubah.
-                        </p>
-                    </div>
-
-                    <ul class="audit-points">
-                        <li class="audit-point-item">
-                            <span>&bull;</span>
-                            <span>Audit Trail otomatis merekam aktor, aksi, dan stempel waktu.</span>
-                        </li>
-                        <li class="audit-point-item">
-                            <span>&bull;</span>
-                            <span>Notifikasi penugasan otomatis dikirimkan ke email petugas.</span>
-                        </li>
-                        <li class="audit-point-item">
-                            <span>&bull;</span>
-                            <span>Pengukuran durasi penanganan (SLA) transparan dari awal hingga akhir.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- [08. Footer #1b5e20] -->
@@ -2096,9 +1500,6 @@
                     <p style="font-size: var(--step-body); color: #c8e6c9;">
                         Sistem informasi resmi penanganan isu stabilitas harga dan ketersediaan bahan pangan pokok daerah.
                     </p>
-                    <a href="{{ route('login') }}" class="btn-footer-login">
-                        Masuk ke sistem &rarr;
-                    </a>
                 </div>
             </div>
 
@@ -2178,6 +1579,63 @@
             const saved = localStorage.getItem('sigap_theme');
             applyThemeUI(saved === 'dark' ? 'dark' : 'light');
         });
+
+        // Sinkronisasi Visibilitas Tombol Masuk Header vs Tombol Masuk Main/Hero
+        (function() {
+            let isHiding = false;
+            let hideTimeout = null;
+
+            function updateHeaderLoginBtn() {
+                const heroBtn = document.getElementById('hero-login-btn');
+                const headerBtn = document.getElementById('header-login-btn');
+                if (!heroBtn || !headerBtn) return;
+
+                const header = document.querySelector('.site-header');
+                const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+                const heroRect = heroBtn.getBoundingClientRect();
+
+                // Tombol di hero masih terlihat jika bagian bawahnya berada di bawah sticky header
+                // dan bagian atasnya belum melewati batas bawah viewport
+                const isHeroVisible = heroRect.bottom > headerBottom && heroRect.top < window.innerHeight;
+
+                if (isHeroVisible) {
+                    // Tombol di main/hero MASIH terlihat -> jangan tampilkan tombol masuk di header
+                    if (headerBtn.classList.contains('is-visible') && !isHiding) {
+                        isHiding = true;
+                        headerBtn.classList.add('is-hiding');
+                        clearTimeout(hideTimeout);
+                        hideTimeout = setTimeout(() => {
+                            headerBtn.classList.remove('is-visible', 'is-hiding');
+                            isHiding = false;
+                        }, 180);
+                    } else if (!isHiding) {
+                        headerBtn.classList.remove('is-visible', 'is-hiding');
+                    }
+                } else {
+                    // Tombol di main/hero SUDAH TIDAK terlihat -> tampilkan tombol masuk di header
+                    isHiding = false;
+                    clearTimeout(hideTimeout);
+                    headerBtn.classList.remove('is-hiding');
+                    headerBtn.classList.add('is-visible');
+                }
+            }
+
+            let ticking = false;
+            function onScrollHandler() {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        updateHeaderLoginBtn();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+
+            window.addEventListener('scroll', onScrollHandler, { passive: true });
+            window.addEventListener('resize', onScrollHandler, { passive: true });
+            document.addEventListener('DOMContentLoaded', updateHeaderLoginBtn);
+            setTimeout(updateHeaderLoginBtn, 20);
+        })();
     </script>
 </body>
 </html>
