@@ -14,10 +14,6 @@ class IssueController extends Controller
 {
     public function index(Request $request)
     {
-        if (Auth::user()->isPimpinan()) {
-            return redirect()->route('dashboard')->with('info', 'Akses Pimpinan difokuskan pada Ringkasan Eksekutif dan Tren Perkembangan Harga.');
-        }
-
         $query = Issue::with(['komoditas', 'kabupaten', 'pasar', 'inputBy'])
             ->latest();
 
@@ -110,13 +106,8 @@ class IssueController extends Controller
 
     public function show(Issue $issue)
     {
-        if (Auth::user()->isPimpinan()) {
-            return redirect()->route('dashboard')->with('info', 'Akses Pimpinan difokuskan pada Ringkasan Eksekutif dan Tren Perkembangan Harga.');
-        }
-
         $issue->load([
-            'komoditas', 'kabupaten', 'pasar', 'inputBy', 'verifikasiBy', 'assignBy',
-            'verifications.verifikator',
+            'komoditas', 'kabupaten', 'pasar', 'inputBy', 'assignBy',
             'assignments.petugas', 'assignments.assignedBy',
             'interventions.dibuatBy',
             'resolution.ditutupBy',

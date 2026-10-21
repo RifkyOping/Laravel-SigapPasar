@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="sp-form-group">
-                    <label class="sp-label">Harga Referensi (HET) (Rp)</label>
+                    <label class="sp-label">HET/HAP (Rp)</label>
                     <input type="number" min="0" name="harga_referensi" value="{{ old('harga_referensi') }}" placeholder="14000" class="sp-input">
                 </div>
             </div>

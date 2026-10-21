@@ -13,6 +13,8 @@ class CommodityPrice extends Model
 
     protected $fillable = [
         'komoditas_id',
+        'kabupaten_id',
+        'nama_kabupaten',
         'nama_variant',
         'satuan',
         'tanggal',
@@ -42,9 +44,25 @@ class CommodityPrice extends Model
         return ucwords(str_replace('_', ' ', (string) $this->sumber));
     }
 
+    public function getKabupatenLabelAttribute(): string
+    {
+        if (!empty($this->nama_kabupaten)) {
+            return $this->nama_kabupaten;
+        }
+        if ($this->kabupaten) {
+            return str_replace('Kabupaten ', '', $this->kabupaten->name);
+        }
+        return 'Sulawesi Barat';
+    }
+
     public function komoditas()
     {
         return $this->belongsTo(MasterData::class, 'komoditas_id');
+    }
+
+    public function kabupaten()
+    {
+        return $this->belongsTo(MasterData::class, 'kabupaten_id');
     }
 
     public function createdBy()

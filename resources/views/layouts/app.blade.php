@@ -55,7 +55,7 @@
         </a>
 
         {{-- Pengawas Siber + Admin --}}
-        @if(!auth()->user()->isPimpinan() && auth()->user()->isRole(['pengawas_siber','admin','super_admin','verifikator']))
+        @if(!auth()->user()->isPimpinan() && auth()->user()->isRole(['pengawas_siber','admin','super_admin']))
         <div class="sp-nav-section">Isu</div>
         <a href="{{ route('issues.index') }}"
            class="sp-nav-link {{ (request()->routeIs('issues.*') && !request()->routeIs('issues.create')) ? 'active' : '' }}"
@@ -74,20 +74,6 @@
         </a>
         @endif
 
-        {{-- Verifikator --}}
-        @if(auth()->user()->isRole(['verifikator','admin','super_admin']))
-        <div class="sp-nav-section">Verifikasi</div>
-        <a href="{{ route('verifikasi.index') }}"
-           class="sp-nav-link {{ request()->routeIs('verifikasi.*') ? 'active' : '' }}">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-            <span style="flex:1;">Antrian Verifikasi</span>
-            @php $vCount = \App\Models\Issue::where('status', 'baru')->count(); @endphp
-            @if($vCount > 0)
-            <span class="sp-badge badge-baru" style="font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:999px;">{{ $vCount }}</span>
-            @endif
-        </a>
-        @endif
-
         {{-- Admin --}}
         @if(auth()->user()->isRole(['admin','super_admin']))
         <div class="sp-nav-section">Operasional</div>
@@ -95,9 +81,9 @@
            class="sp-nav-link {{ request()->routeIs('penugasan.*') ? 'active' : '' }}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
             <span style="flex:1;">Penugasan</span>
-            @php $pCount = \App\Models\Issue::where('status', 'diverifikasi')->count(); @endphp
+            @php $pCount = \App\Models\Issue::whereIn('status', ['baru', 'diverifikasi'])->count(); @endphp
             @if($pCount > 0)
-            <span class="sp-badge badge-diverifikasi" style="font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:999px;">{{ $pCount }}</span>
+            <span class="sp-badge badge-baru" style="font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:999px;">{{ $pCount }}</span>
             @endif
         </a>
         <a href="{{ route('intervensi.index') }}"
@@ -124,18 +110,29 @@
             <span style="flex:1;">Laporan Lapangan</span>
             @php
                 $lCount = \App\Models\FieldAssignment::where('petugas_id', auth()->id())
-                    ->whereIn('status', ['ditugaskan', 'di_lapangan'])
+                    ->whereIn('status', ['ditugaskan', 'sedang_dikerjakan'])
                     ->count();
+                $availCount = \App\Models\Issue::whereIn('status', ['baru', 'diverifikasi'])->count();
+                $totalBadge = $lCount + $availCount;
             @endphp
-            @if($lCount > 0)
-            <span class="sp-badge badge-ditugaskan" style="font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:999px;">{{ $lCount }}</span>
+            @if($totalBadge > 0)
+            <span class="sp-badge badge-ditugaskan" style="font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:999px;">{{ $totalBadge }}</span>
             @endif
         </a>
         @endif
 
         {{-- Pimpinan --}}
         @if(auth()->user()->isPimpinan())
-        <div class="sp-nav-section">Pantauan Pasar</div>
+        <div class="sp-nav-section">Pantauan Eksekutif</div>
+        <a href="{{ route('issues.index') }}"
+           class="sp-nav-link {{ request()->routeIs('issues.*') ? 'active' : '' }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span style="flex:1;">Semua Isu Pasar</span>
+            @php $isuAktifCount = \App\Models\Issue::whereNotIn('status', ['selesai', 'hoaks', 'ditutup'])->count(); @endphp
+            @if($isuAktifCount > 0)
+            <span class="sp-badge badge-kritis" style="font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:999px;">{{ $isuAktifCount }}</span>
+            @endif
+        </a>
         <a href="{{ route('prices.index') }}"
            class="sp-nav-link {{ request()->routeIs('prices.*') ? 'active' : '' }}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
@@ -149,7 +146,7 @@
         <a href="{{ route('prices.index') }}"
            class="sp-nav-link {{ request()->routeIs('prices.*') ? 'active' : '' }}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-            Harga Harian (Import)
+            Harga Harian
         </a>
         @if(auth()->user()->isSuperAdmin())
         <a href="{{ route('master-data.index') }}"

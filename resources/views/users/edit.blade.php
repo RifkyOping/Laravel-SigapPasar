@@ -57,7 +57,6 @@
                         <option value="pimpinan" {{ old('role', $user->role) === 'pimpinan' ? 'selected' : '' }}>Pimpinan (Ringkasan Eksekutif & Tren Harga)</option>
                         <option value="super_admin" {{ old('role', $user->role) === 'super_admin' ? 'selected' : '' }}>Admin (Operasional Dinas, Master & Akun)</option>
                         <option value="pengawas_siber" {{ old('role', $user->role) === 'pengawas_siber' ? 'selected' : '' }}>Pengawas</option>
-                        <option value="verifikator" {{ old('role', $user->role) === 'verifikator' ? 'selected' : '' }}>Verifikator</option>
                         <option value="petugas_lapangan" {{ old('role', $user->role) === 'petugas_lapangan' ? 'selected' : '' }}>Petugas</option>
                     </select>
                 </div>

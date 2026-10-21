@@ -31,7 +31,6 @@ class User extends Authenticatable
             'pimpinan'                      => 'Pimpinan',
             'super_admin', 'admin'          => 'Admin',
             'pengawas_siber', 'pengawas'    => 'Pengawas',
-            'verifikator'                   => 'Verifikator',
             'petugas_lapangan', 'petugas'   => 'Petugas',
             default                         => 'Unknown',
         };
@@ -63,7 +62,6 @@ class User extends Authenticatable
     public function isAdmin(): bool           { return in_array($this->role, ['super_admin', 'admin']); }
     public function isPengawasSiber(): bool   { return in_array($this->role, ['pengawas_siber', 'pengawas']); }
     public function isPengawas(): bool        { return in_array($this->role, ['pengawas_siber', 'pengawas']); }
-    public function isVerifikator(): bool     { return $this->role === 'verifikator'; }
     public function isPetugasLapangan(): bool { return in_array($this->role, ['petugas_lapangan', 'petugas']); }
     public function isPetugas(): bool         { return in_array($this->role, ['petugas_lapangan', 'petugas']); }
 

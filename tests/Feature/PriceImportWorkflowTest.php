@@ -54,7 +54,7 @@ class PriceImportWorkflowTest extends TestCase
         $responseDashboard->assertStatus(200);
         $responseDashboard->assertDontSee('Import Excel Harga');
         $responseDashboard->assertDontSee('Unduh Format');
-        $responseDashboard->assertSeeText('Status Stabilitas Pangan Daerah');
+        $responseDashboard->assertSeeText('PERIODE DATA:');
     }
 
     public function test_unauthorized_role_cannot_access_import_or_price_pages(): void
@@ -249,4 +249,118 @@ class PriceImportWorkflowTest extends TestCase
             unlink($tempPath);
         }
     }
+
+    public function test_user_can_customize_number_of_prices_per_page_or_view_all(): void
+    {
+        $superAdmin = User::where('role', 'super_admin')->first();
+
+        // 1. Default per page (25)
+        $responseDefault = $this->actingAs($superAdmin)->get('/harga-pasar');
+        $responseDefault->assertStatus(200);
+        $this->assertCount(25, $responseDefault->viewData('prices'));
+
+        // 2. Custom per page: 10
+        $response10 = $this->actingAs($superAdmin)->get('/harga-pasar?per_page=10');
+        $response10->assertStatus(200);
+        $this->assertCount(10, $response10->viewData('prices'));
+
+        // 3. Custom per page: 50
+        $response50 = $this->actingAs($superAdmin)->get('/harga-pasar?per_page=50');
+        $response50->assertStatus(200);
+        $this->assertCount(50, $response50->viewData('prices'));
+
+        // 4. View all (per_page=all)
+        $totalRecords = CommodityPrice::count();
+        $responseAll = $this->actingAs($superAdmin)->get('/harga-pasar?per_page=all');
+        $responseAll->assertStatus(200);
+        $this->assertCount($totalRecords, $responseAll->viewData('prices'));
+        $responseAll->assertSee('Mode Semua Data Aktif');
+    }
+
+    public function test_super_admin_can_download_and_import_new_template_format_with_kabupaten(): void
+    {
+        $superAdmin = User::where('role', 'super_admin')->first();
+
+        // 1. Verifikasi download template mengembalikan header dan format baru
+        $responseTemplate = $this->actingAs($superAdmin)->get('/harga-pasar/template');
+        $responseTemplate->assertStatus(200);
+
+        // 2. Buat spreadsheet sesuai format baru pada gambar referensi
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->fromArray([
+            ['Kabupaten', 'Komoditas', 'Satuan', 'Tanggal', 'Harga'],
+            ['Majene', 'Bawang Bombai', 'Rp/Kg', '3 /08 /2026', 'Rp35.000,00'],
+            ['Majene', 'Bawang Bombai', 'Rp/Kg', '4 /08 /2026', 'Rp35.000,00'],
+            ['Mamuju', 'Bawang Bombai', 'Rp/Kg', '3 /08 /2026', 'Rp38.000,00'],
+            ['Majene', 'Bawang Bombai', 'Rp/Kg', '20 /08 /2026', 'Rp36.667,00'],
+        ]);
+
+        $tempPath = tempnam(sys_get_temp_dir(), 'test_new_fmt_') . '.xlsx';
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($tempPath);
+
+        $uploadedFile = new UploadedFile(
+            $tempPath,
+            'test_harga_baru.xlsx',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            null,
+            true
+        );
+
+        // 3. Post import file
+        $responseImport = $this->actingAs($superAdmin)
+            ->from('/harga-pasar')
+            ->post('/harga-pasar/import', [
+                'file_excel' => $uploadedFile,
+            ]);
+
+        $responseImport->assertRedirect('/harga-pasar');
+        $responseImport->assertSessionHas('success');
+
+        // 4. Verifikasi data tersimpan di database dengan relasi kabupaten
+        $majenePrice = CommodityPrice::where('nama_variant', 'Bawang Bombai')
+            ->where('nama_kabupaten', 'Majene')
+            ->whereDate('tanggal', '2026-08-03')
+            ->first();
+
+        $this->assertNotNull($majenePrice);
+        $this->assertEquals(35000, (int) $majenePrice->harga);
+        $this->assertEquals('Majene', $majenePrice->nama_kabupaten);
+        $this->assertEquals('Kabupaten Majene', $majenePrice->kabupaten?->name);
+
+        $mamujuPrice = CommodityPrice::where('nama_variant', 'Bawang Bombai')
+            ->where('nama_kabupaten', 'Mamuju')
+            ->whereDate('tanggal', '2026-08-03')
+            ->first();
+
+        $this->assertNotNull($mamujuPrice);
+        $this->assertEquals(38000, (int) $mamujuPrice->harga);
+
+        $majeneAug20 = CommodityPrice::where('nama_variant', 'Bawang Bombai')
+            ->where('nama_kabupaten', 'Majene')
+            ->whereDate('tanggal', '2026-08-20')
+            ->first();
+
+        $this->assertNotNull($majeneAug20);
+        $this->assertEquals(36667, (int) $majeneAug20->harga);
+
+        // 5. Verifikasi tampilan web menampilkan kolom Kabupaten dan dapat difilter
+        $viewResponse = $this->actingAs($superAdmin)->get('/harga-pasar');
+        $viewResponse->assertStatus(200);
+        $viewResponse->assertSee('<th>Kabupaten</th>', false);
+        $viewResponse->assertSee('<th>Komoditas</th>', false);
+        $viewResponse->assertSee('Majene');
+        $viewResponse->assertSee('Mamuju');
+
+        // Filter berdasarkan kabupaten
+        $filterResponse = $this->actingAs($superAdmin)->get('/harga-pasar?kabupaten=' . $majenePrice->kabupaten_id);
+        $filterResponse->assertStatus(200);
+        $filterResponse->assertSee('Majene');
+
+        if (file_exists($tempPath)) {
+            unlink($tempPath);
+        }
+    }
 }
+

@@ -14,9 +14,9 @@ class PenugasanController extends Controller
 {
     public function index()
     {
-        $issues = Issue::with(['komoditas', 'kabupaten', 'verifications.verifikator'])
-            ->where('status', 'diverifikasi')
-            ->orderByDesc('prioritas')
+        $issues = Issue::with(['komoditas', 'kabupaten'])
+            ->whereIn('status', ['baru', 'diverifikasi'])
+            ->orderByDesc('virality_score')
             ->paginate(15);
 
         $petugas = User::where('role', 'petugas_lapangan')

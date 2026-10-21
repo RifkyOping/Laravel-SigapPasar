@@ -18,7 +18,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->isPimpinan()) {
+        if ($user->isPimpinan() || $user->isAdmin()) {
             $periode = $request->get('periode', 'hari');
             if (!in_array($periode, ['hari', 'minggu', 'bulan', 'tahun'])) {
                 $periode = 'hari';
@@ -81,6 +81,7 @@ class DashboardController extends Controller
         ];
 
         $kabupatenList = MasterData::where('type', 'kabupaten')->get();
+        $allPasar = MasterData::where('type', 'pasar')->get();
         $petaKabupaten = [];
 
         foreach ($kabupatenList as $kab) {
@@ -88,16 +89,82 @@ class DashboardController extends Controller
 
             $isuKab = Issue::where('kabupaten_id', $kab->id);
             $totalKab = (clone $isuKab)->where('created_at', '>=', $startDate)->count();
+            $totalKabAll = (clone $isuKab)->count();
             $aktifKab = (clone $isuKab)->whereNotIn('status', ['selesai', 'ditutup', 'hoaks'])->count();
             $kritisKab = (clone $isuKab)->where('prioritas', 'kritis')->whereNotIn('status', ['selesai', 'ditutup'])->count();
+            $selesaiKab = (clone $isuKab)->where('status', 'selesai')->count();
+            $intervensiKab = (clone $isuKab)->where('status', 'intervensi')->count();
+            $lapanganKab = (clone $isuKab)->whereIn('status', ['di_lapangan', 'ditugaskan'])->count();
+            $rasioSelesaiKab = $totalKab > 0 ? round(($selesaiKab / $totalKab) * 100) : 100;
 
-            // Komoditas teratas di kabupaten ini
-            $topKomoditas = (clone $isuKab)
+            // Komoditas teratas & breakdown di kabupaten ini
+            $komoditasBreakdown = (clone $isuKab)
                 ->select('komoditas_id', DB::raw('count(*) as count'))
                 ->with('komoditas')
                 ->groupBy('komoditas_id')
                 ->orderByDesc('count')
-                ->first();
+                ->take(5)
+                ->get()
+                ->map(fn($item) => [
+                    'name' => $item->komoditas?->name ?? 'Lainnya',
+                    'count' => $item->count,
+                ])
+                ->values()
+                ->toArray();
+
+            $topKomoditasName = !empty($komoditasBreakdown) ? $komoditasBreakdown[0]['name'] : '-';
+
+            // Pasar di kabupaten ini
+            $pasarKab = $allPasar->filter(function($p) use ($kab) {
+                return (str_contains($p->deskripsi ?? '', $kab->name)) ||
+                       (str_contains($p->name ?? '', $kab->name));
+            })->pluck('name')->values()->toArray();
+
+            // Daftar isu terkini di kabupaten ini
+            $isuTerkini = (clone $isuKab)
+                ->with(['komoditas', 'pasar'])
+                ->latest('created_at')
+                ->take(6)
+                ->get()
+                ->map(function ($isu) {
+                    return [
+                        'id' => $isu->id,
+                        'kode_isu' => $isu->kode_isu,
+                        'komoditas' => $isu->komoditas?->name ?? '-',
+                        'lokasi' => $isu->lokasi_spesifik ?? ($isu->pasar?->name ?? 'Pasar Tradisional'),
+                        'status' => $isu->status,
+                        'status_label' => $isu->status_label,
+                        'prioritas' => $isu->prioritas,
+                        'prioritas_label' => $isu->prioritas_label,
+                        'virality_score' => (int) $isu->virality_score,
+                        'tanggal' => $isu->tanggal_temuan ? $isu->tanggal_temuan->format('d/m/Y') : ($isu->created_at ? $isu->created_at->format('d/m/Y') : '-'),
+                        'url' => route('issues.show', $isu->id),
+                    ];
+                })
+                ->values()
+                ->toArray();
+
+            // Inspeksi fisik lapangan terbaru di kabupaten ini
+            $inspeksiKab = FieldAssignment::whereHas('issue', function($q) use ($kab) {
+                    $q->where('kabupaten_id', $kab->id);
+                })
+                ->with(['issue.komoditas', 'issue.pasar', 'petugas'])
+                ->latest()
+                ->take(3)
+                ->get()
+                ->map(function ($asgn) {
+                    return [
+                        'id' => $asgn->id,
+                        'komoditas' => $asgn->issue?->komoditas?->name ?? '-',
+                        'lokasi' => $asgn->issue?->lokasi_spesifik ?? ($asgn->issue?->pasar?->name ?? 'Pasar Tradisional'),
+                        'harga_aktual' => (float) ($asgn->harga_aktual ?? 0),
+                        'petugas' => $asgn->petugas?->name ?? 'Petugas Lapangan',
+                        'catatan' => $asgn->catatan_temuan ?? '-',
+                        'tanggal' => $asgn->checkin_at ? $asgn->checkin_at->format('d/m/Y H:i') : ($asgn->created_at ? $asgn->created_at->format('d/m/Y') : '-'),
+                    ];
+                })
+                ->values()
+                ->toArray();
 
             $statusLevel = 'kondusif';
             if ($kritisKab > 0) {
@@ -113,9 +180,19 @@ class DashboardController extends Controller
                 'lat' => $coords['lat'],
                 'lng' => $coords['lng'],
                 'total_isu_periode' => $totalKab,
+                'total_isu_all' => $totalKabAll,
                 'isu_aktif' => $aktifKab,
                 'isu_kritis' => $kritisKab,
-                'komoditas_utama' => $topKomoditas?->komoditas?->name ?? 'Nihil Isu',
+                'isu_selesai' => $selesaiKab,
+                'isu_intervensi' => $intervensiKab,
+                'isu_lapangan' => $lapanganKab,
+                'rasio_selesai' => $rasioSelesaiKab,
+                'komoditas_utama' => $topKomoditasName,
+                'komoditas_breakdown' => $komoditasBreakdown,
+                'pasar_list' => $pasarKab,
+                'isu_terkini' => $isuTerkini,
+                'inspeksi_list' => $inspeksiKab,
+                'link_semua_isu' => route('issues.index', ['kabupaten' => $kab->id]),
                 'status_level' => $statusLevel,
             ];
         }
@@ -189,8 +266,12 @@ class DashboardController extends Controller
                     ->value('harga_aktual');
             }
 
-            // Tentukan harga aktual dan label sumbernya (Prioritas: Import Pasar > Inspeksi Lapangan > Acuan Master)
-            if ($avgImport) {
+            // Tentukan harga aktual dan label sumbernya (Prioritas: Inspeksi Lapangan jika lebih tinggi/anomali > Import Pasar > Acuan Master)
+            if ($avgAktualPeriode && (!$avgImport || $avgAktualPeriode > $avgImport)) {
+                $hargaAktual = (float) $avgAktualPeriode;
+                $sumberHarga = 'Inspeksi Lapangan';
+                $adaData = true;
+            } elseif ($avgImport) {
                 $hargaAktual = (float) $avgImport;
                 $sumberHarga = 'Import Pasar';
                 $adaData = true;
@@ -218,9 +299,16 @@ class DashboardController extends Controller
                 $statusClass = 'badge-selesai';
             }
 
-            $isuCount = Issue::where('komoditas_id', $k->id)
+            // Hitung isu terkait komoditas ini (prioritaskan isu aktif dan periode berjalan)
+            $isuAktifCount = Issue::where('komoditas_id', $k->id)
+                ->whereNotIn('status', ['selesai', 'ditutup'])
+                ->count();
+            $isuPeriodeCount = Issue::where('komoditas_id', $k->id)
                 ->where('created_at', '>=', $startDate)
                 ->count();
+            $isuTotalCount = Issue::where('komoditas_id', $k->id)->count();
+
+            $isuCount = $isuAktifCount > 0 ? $isuAktifCount : ($isuPeriodeCount > 0 ? $isuPeriodeCount : $isuTotalCount);
 
             $variantsCount = (clone $priceQuery)->distinct('nama_variant')->count('nama_variant');
 
@@ -239,11 +327,24 @@ class DashboardController extends Controller
                 'status_harga' => $statusHarga,
                 'status_class' => $statusClass,
                 'isu_count' => $isuCount,
+                'isu_aktif_count' => $isuAktifCount,
+                'isu_total_count' => $isuTotalCount,
             ];
         }
 
-        // Urutkan komoditas dari kenaikan tertinggi
-        usort($perkembanganHarga, fn($a, $b) => $b['persen_selisih'] <=> $a['persen_selisih']);
+        // Urutkan komoditas:
+        // Prioritaskan komoditas yang memiliki isu pasar aktif/terkait, lalu disparitas (persen_selisih) tertinggi
+        usort($perkembanganHarga, function ($a, $b) {
+            $aHasIsu = ($a['isu_count'] ?? 0) > 0;
+            $bHasIsu = ($b['isu_count'] ?? 0) > 0;
+            if ($aHasIsu && !$bHasIsu) {
+                return -1;
+            }
+            if (!$aHasIsu && $bHasIsu) {
+                return 1;
+            }
+            return $b['persen_selisih'] <=> $a['persen_selisih'];
+        });
 
         // Data Grafik Tren berdasarkan Periode
         $grafikTren = $this->generateGrafikTren($periode, $startDate, $perkembanganHarga);
@@ -270,7 +371,7 @@ class DashboardController extends Controller
         if ($komoditasKritisCount > 0) {
             $topProblem = $perkembanganHarga[0]['name'] ?? 'komoditas';
             $topDev = $perkembanganHarga[0]['persen_selisih'] ?? 0;
-            $ringkasanEksekutif = "Perhatian Khusus: Terdeteksi {$komoditasKritisCount} komoditas melonjak signifikan di atas HET (tertinggi: {$topProblem} +{$topDev}%). Disarankan pertimbangan koordinasi operasi pasar.";
+            $ringkasanEksekutif = "Terdeteksi {$komoditasKritisCount} komoditas melonjak signifikan di atas HET\nTertinggi: {$topProblem} +{$topDev}%";
             $statusDaerahLevel = 'kritis';
             $statusDaerahLabel = 'Perlu Atensi';
         } elseif ($komoditasWaspadaCount > 0) {
@@ -285,11 +386,50 @@ class DashboardController extends Controller
             $statusDaerahLabel = 'Kondusif & Stabil';
         }
 
+        // Data Isu Terkini Lintas Seluruh Wilayah Sulawesi Barat
+        $isuTerkiniSemua = Issue::with(['komoditas', 'kabupaten', 'pasar'])
+            ->latest('created_at')
+            ->take(10)
+            ->get()
+            ->map(function ($isu) {
+                return [
+                    'id' => $isu->id,
+                    'kode_isu' => $isu->kode_isu,
+                    'komoditas' => $isu->komoditas?->name ?? '-',
+                    'lokasi' => ($isu->kabupaten?->name ? $isu->kabupaten->name . ' • ' : '') . ($isu->lokasi_spesifik ?? ($isu->pasar?->name ?? 'Pasar')),
+                    'status' => $isu->status,
+                    'status_label' => $isu->status_label,
+                    'prioritas' => $isu->prioritas,
+                    'prioritas_label' => $isu->prioritas_label,
+                    'virality_score' => (int) $isu->virality_score,
+                    'tanggal' => $isu->tanggal_temuan ? $isu->tanggal_temuan->format('d/m/Y') : ($isu->created_at ? $isu->created_at->format('d/m/Y') : '-'),
+                    'url' => route('issues.show', $isu->id),
+                ];
+            })
+            ->values()
+            ->toArray();
+
+        $semuaWilayahData = [
+            'name' => 'Seluruh Wilayah Sulawesi Barat',
+            'code' => 'SULBAR',
+            'status_level' => $statusDaerahLevel,
+            'status_label' => $statusDaerahLabel,
+            'total_isu_periode' => $totalIsu,
+            'total_isu_all' => Issue::count(),
+            'isu_aktif' => Issue::whereNotIn('status', ['selesai', 'ditutup', 'hoaks'])->count(),
+            'isu_kritis' => Issue::where('prioritas', 'kritis')->whereNotIn('status', ['selesai', 'ditutup'])->count(),
+            'isu_intervensi' => $isuDiproses,
+            'isu_selesai' => $isuSelesai,
+            'rasio_selesai' => $rasioSelesai,
+            'link_semua_isu' => route('issues.index'),
+            'isu_terkini' => $isuTerkiniSemua,
+        ];
+
         return compact(
             'periode', 'periodeLabel', 'startDate',
             'totalIsu', 'isuBaru', 'isuKritis', 'isuDiproses', 'isuSelesai',
             'rasioSelesai', 'avgSla',
-            'petaKabupaten', 'titikLapangan',
+            'petaKabupaten', 'titikLapangan', 'semuaWilayahData',
             'perkembanganHarga', 'grafikTren',
             'totalImportCount', 'latestImportDate',
             'komoditasStabilCount', 'komoditasWaspadaCount', 'komoditasKritisCount',
@@ -300,65 +440,252 @@ class DashboardController extends Controller
 
     private function generateGrafikTren(string $periode, $startDate, array $perkembanganHarga): array
     {
-        $labels = [];
-        $isuMasukData = [];
-        $isuSelesaiData = [];
+        $avgHet = (float) (MasterData::where('type', 'komoditas')->where('is_active', true)->avg('harga_referensi') ?: 35000);
+        $hasCommodityPrices = CommodityPrice::exists();
 
-        if ($periode === 'hari') {
-            $labels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00'];
-            $now = now();
-            foreach ($labels as $idx => $lbl) {
-                $hour = 8 + ($idx * 2);
-                $slotStart = $now->copy()->setTime($hour, 0, 0);
-                $slotEnd = $now->copy()->setTime($hour + 2, 0, 0);
-                $isuMasukData[] = Issue::whereBetween('created_at', [$slotStart, $slotEnd])->count();
-                $isuSelesaiData[] = Issue::whereBetween('updated_at', [$slotStart, $slotEnd])
-                    ->whereIn('status', ['selesai', 'ditutup'])->count();
+        $allKomoditas = $perkembanganHarga;
+        foreach ($allKomoditas as &$ak) {
+            $ak['chart_prices'] = [];
+        }
+        unset($ak);
+
+        $labels = [];
+        $hargaRataRata = [];
+        $hargaHet = [];
+        $hargaBeras = [];
+        $hargaCabai = [];
+        $hargaMinyak = [];
+        $latestUploadInfo = null;
+
+        if ($hasCommodityPrices) {
+            $latestDate = CommodityPrice::max('tanggal');
+            if ($latestDate) {
+                $latestUploadInfo = 'Update Terakhir: ' . \Carbon\Carbon::parse($latestDate)->translatedFormat('d M Y');
             }
-        } elseif ($periode === 'minggu') {
-            for ($i = 6; $i >= 0; $i--) {
-                $day = now()->subDays($i);
-                $labels[] = $day->translatedFormat('D (d M)');
-                $start = $day->copy()->startOfDay();
-                $end = $day->copy()->endOfDay();
-                $isuMasukData[] = Issue::whereBetween('created_at', [$start, $end])->count();
-                $isuSelesaiData[] = Issue::whereBetween('updated_at', [$start, $end])
-                    ->whereIn('status', ['selesai', 'ditutup'])->count();
-            }
-        } elseif ($periode === 'tahun') {
-            $year = now()->year;
-            $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-            foreach ($monthNames as $mIdx => $mName) {
-                $labels[] = $mName;
-                $m = $mIdx + 1;
-                $isuMasukData[] = Issue::whereYear('created_at', $year)->whereMonth('created_at', $m)->count();
-                $isuSelesaiData[] = Issue::whereYear('updated_at', $year)->whereMonth('updated_at', $m)
-                    ->whereIn('status', ['selesai', 'ditutup'])->count();
-            }
-        } else { // bulan
-            $startOfMonth = now()->startOfMonth();
-            $labels = ['Minggu 1 (Tgl 1-7)', 'Minggu 2 (Tgl 8-14)', 'Minggu 3 (Tgl 15-21)', 'Minggu 4 (Tgl 22+)'];
-            $ranges = [
-                [$startOfMonth->copy()->day(1)->startOfDay(), $startOfMonth->copy()->day(7)->endOfDay()],
-                [$startOfMonth->copy()->day(8)->startOfDay(), $startOfMonth->copy()->day(14)->endOfDay()],
-                [$startOfMonth->copy()->day(15)->startOfDay(), $startOfMonth->copy()->day(21)->endOfDay()],
-                [$startOfMonth->copy()->day(22)->startOfDay(), now()->endOfMonth()->endOfDay()],
-            ];
-            foreach ($ranges as $rng) {
-                $isuMasukData[] = Issue::whereBetween('created_at', [$rng[0], $rng[1]])->count();
-                $isuSelesaiData[] = Issue::whereBetween('updated_at', [$rng[0], $rng[1]])
-                    ->whereIn('status', ['selesai', 'ditutup'])->count();
+
+            if ($periode === 'tahun') {
+                $year = now()->year;
+                $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+                $allYearPrices = CommodityPrice::whereYear('tanggal', $year)
+                    ->get(['tanggal', 'komoditas_id', 'nama_variant', 'harga']);
+
+                $monthPriceIndex = [];
+                foreach ($allYearPrices as $p) {
+                    $m = (int) \Carbon\Carbon::parse($p->tanggal)->format('n');
+                    $kId = $p->komoditas_id;
+                    $vName = strtolower(trim($p->nama_variant));
+                    if ($kId) {
+                        $monthPriceIndex[$m]["id_{$kId}"][] = (float) $p->harga;
+                    }
+                    $monthPriceIndex[$m]["name_{$vName}"][] = (float) $p->harga;
+                }
+
+                foreach ($monthNames as $mIdx => $mName) {
+                    $m = $mIdx + 1;
+                    $labels[] = $mName;
+                    $monthAvg = CommodityPrice::whereYear('tanggal', $year)->whereMonth('tanggal', $m)->avg('harga');
+                    $hargaRataRata[] = $monthAvg ? round((float) $monthAvg) : null;
+                    $hargaHet[] = round($avgHet);
+                    $berasAvg = CommodityPrice::whereYear('tanggal', $year)->whereMonth('tanggal', $m)->where('nama_variant', 'like', '%Beras%')->avg('harga');
+                    $hargaBeras[] = $berasAvg ? round((float) $berasAvg) : null;
+                    $cabaiAvg = CommodityPrice::whereYear('tanggal', $year)->whereMonth('tanggal', $m)->where('nama_variant', 'like', '%Cabai%')->avg('harga');
+                    $hargaCabai[] = $cabaiAvg ? round((float) $cabaiAvg) : null;
+                    $minyakAvg = CommodityPrice::whereYear('tanggal', $year)->whereMonth('tanggal', $m)->where('nama_variant', 'like', '%Minyak%')->avg('harga');
+                    $hargaMinyak[] = $minyakAvg ? round((float) $minyakAvg) : null;
+
+                    foreach ($allKomoditas as &$ak) {
+                        $val = null;
+                        if (isset($monthPriceIndex[$m]["id_{$ak['id']}"])) {
+                            $val = array_sum($monthPriceIndex[$m]["id_{$ak['id']}"]) / count($monthPriceIndex[$m]["id_{$ak['id']}"]);
+                        } else {
+                            $kNameLower = strtolower(trim($ak['name']));
+                            foreach ($monthPriceIndex[$m] ?? [] as $key => $vals) {
+                                if (str_starts_with($key, 'name_') && str_contains($key, $kNameLower)) {
+                                    $val = array_sum($vals) / count($vals);
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!$val) {
+                            $val = $ak['harga_aktual'] ?: $ak['het'];
+                        }
+
+                        $ak['chart_prices'][] = round((float) $val);
+                    }
+                    unset($ak);
+                }
+            } elseif ($periode === 'bulan') {
+                $startOfMonth = now()->startOfMonth()->toDateString();
+                $endOfMonth = now()->endOfMonth()->toDateString();
+                $datesInMonth = CommodityPrice::whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+                    ->select('tanggal')
+                    ->distinct()
+                    ->orderBy('tanggal')
+                    ->pluck('tanggal');
+
+                if ($datesInMonth->count() < 3) {
+                    $datesInMonth = CommodityPrice::select('tanggal')
+                        ->distinct()
+                        ->orderBy('tanggal', 'desc')
+                        ->take(10)
+                        ->pluck('tanggal')
+                        ->reverse()
+                        ->values();
+                }
+
+                $dateStrings = $datesInMonth->map(fn($d) => \Carbon\Carbon::parse($d)->format('Y-m-d'))->toArray();
+                $allMonthPrices = CommodityPrice::whereIn(CommodityPrice::raw('DATE(tanggal)'), $dateStrings)
+                    ->get(['tanggal', 'komoditas_id', 'nama_variant', 'harga']);
+
+                $datePriceIndex = [];
+                foreach ($allMonthPrices as $p) {
+                    $dStr = \Carbon\Carbon::parse($p->tanggal)->format('Y-m-d');
+                    $kId = $p->komoditas_id;
+                    $vName = strtolower(trim($p->nama_variant));
+                    if ($kId) {
+                        $datePriceIndex[$dStr]["id_{$kId}"][] = (float) $p->harga;
+                    }
+                    $datePriceIndex[$dStr]["name_{$vName}"][] = (float) $p->harga;
+                }
+
+                foreach ($datesInMonth as $d) {
+                    $dCarbon = \Carbon\Carbon::parse($d);
+                    $dStr = $dCarbon->format('Y-m-d');
+                    $labels[] = $dCarbon->translatedFormat('d M');
+                    $hargaRataRata[] = round((float) CommodityPrice::whereDate('tanggal', $dStr)->avg('harga'));
+                    $hargaHet[] = round($avgHet);
+                    $hargaBeras[] = round((float) CommodityPrice::whereDate('tanggal', $dStr)->where('nama_variant', 'like', '%Beras%')->avg('harga'));
+                    $hargaCabai[] = round((float) CommodityPrice::whereDate('tanggal', $dStr)->where('nama_variant', 'like', '%Cabai%')->avg('harga'));
+                    $hargaMinyak[] = round((float) CommodityPrice::whereDate('tanggal', $dStr)->where('nama_variant', 'like', '%Minyak%')->avg('harga'));
+
+                    foreach ($allKomoditas as &$ak) {
+                        $val = null;
+                        if (isset($datePriceIndex[$dStr]["id_{$ak['id']}"])) {
+                            $val = array_sum($datePriceIndex[$dStr]["id_{$ak['id']}"]) / count($datePriceIndex[$dStr]["id_{$ak['id']}"]);
+                        } else {
+                            $kNameLower = strtolower(trim($ak['name']));
+                            foreach ($datePriceIndex[$dStr] ?? [] as $key => $vals) {
+                                if (str_starts_with($key, 'name_') && str_contains($key, $kNameLower)) {
+                                    $val = array_sum($vals) / count($vals);
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!$val) {
+                            $val = FieldAssignment::whereHas('issue', fn($q) => $q->where('komoditas_id', $ak['id']))
+                                ->whereDate('created_at', $dStr)
+                                ->whereNotNull('harga_aktual')
+                                ->value('harga_aktual');
+                        }
+
+                        if (!$val) {
+                            $val = $ak['harga_aktual'] ?: $ak['het'];
+                        }
+
+                        $ak['chart_prices'][] = round((float) $val);
+                    }
+                    unset($ak);
+                }
+            } else {
+                // Default 'hari' & 'minggu': ambil tanggal-tanggal upload harian terbaru (sampai 7 hari upload terakhir)
+                $distinctDates = CommodityPrice::select('tanggal')
+                    ->distinct()
+                    ->orderBy('tanggal', 'desc')
+                    ->take(7)
+                    ->pluck('tanggal')
+                    ->reverse()
+                    ->values();
+
+                $dateStrings = $distinctDates->map(fn($d) => \Carbon\Carbon::parse($d)->format('Y-m-d'))->toArray();
+                $allDayPrices = CommodityPrice::whereIn(CommodityPrice::raw('DATE(tanggal)'), $dateStrings)
+                    ->get(['tanggal', 'komoditas_id', 'nama_variant', 'harga']);
+
+                $datePriceIndex = [];
+                foreach ($allDayPrices as $p) {
+                    $dStr = \Carbon\Carbon::parse($p->tanggal)->format('Y-m-d');
+                    $kId = $p->komoditas_id;
+                    $vName = strtolower(trim($p->nama_variant));
+                    if ($kId) {
+                        $datePriceIndex[$dStr]["id_{$kId}"][] = (float) $p->harga;
+                    }
+                    $datePriceIndex[$dStr]["name_{$vName}"][] = (float) $p->harga;
+                }
+
+                foreach ($distinctDates as $d) {
+                    $dCarbon = \Carbon\Carbon::parse($d);
+                    $dStr = $dCarbon->format('Y-m-d');
+                    $labels[] = $dCarbon->translatedFormat('d M');
+                    $hargaRataRata[] = round((float) CommodityPrice::whereDate('tanggal', $dStr)->avg('harga'));
+                    $hargaHet[] = round($avgHet);
+                    $hargaBeras[] = round((float) CommodityPrice::whereDate('tanggal', $dStr)->where('nama_variant', 'like', '%Beras%')->avg('harga'));
+                    $hargaCabai[] = round((float) CommodityPrice::whereDate('tanggal', $dStr)->where('nama_variant', 'like', '%Cabai%')->avg('harga'));
+                    $hargaMinyak[] = round((float) CommodityPrice::whereDate('tanggal', $dStr)->where('nama_variant', 'like', '%Minyak%')->avg('harga'));
+
+                    foreach ($allKomoditas as &$ak) {
+                        $val = null;
+                        if (isset($datePriceIndex[$dStr]["id_{$ak['id']}"])) {
+                            $val = array_sum($datePriceIndex[$dStr]["id_{$ak['id']}"]) / count($datePriceIndex[$dStr]["id_{$ak['id']}"]);
+                        } else {
+                            $kNameLower = strtolower(trim($ak['name']));
+                            foreach ($datePriceIndex[$dStr] ?? [] as $key => $vals) {
+                                if (str_starts_with($key, 'name_') && str_contains($key, $kNameLower)) {
+                                    $val = array_sum($vals) / count($vals);
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!$val) {
+                            $val = FieldAssignment::whereHas('issue', fn($q) => $q->where('komoditas_id', $ak['id']))
+                                ->whereDate('created_at', $dStr)
+                                ->whereNotNull('harga_aktual')
+                                ->value('harga_aktual');
+                        }
+
+                        if (!$val) {
+                            $val = $ak['harga_aktual'] ?: $ak['het'];
+                        }
+
+                        $ak['chart_prices'][] = round((float) $val);
+                    }
+                    unset($ak);
+                }
             }
         }
 
-        // Ambil top 3 komoditas untuk perbandingan harga visual
-        $top3 = array_slice($perkembanganHarga, 0, 3);
+        // Fallback jika belum ada data upload harga
+        if (empty($labels)) {
+            $labels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00'];
+            $hargaRataRata = array_fill(0, count($labels), round($avgHet));
+            $hargaHet = array_fill(0, count($labels), round($avgHet));
+            $hargaBeras = array_fill(0, count($labels), 13500);
+            $hargaCabai = array_fill(0, count($labels), 60000);
+            $hargaMinyak = array_fill(0, count($labels), 20000);
+
+            foreach ($allKomoditas as &$ak) {
+                $ak['chart_prices'] = array_fill(0, count($labels), round($ak['harga_aktual'] ?: $ak['het']));
+            }
+            unset($ak);
+        }
+
+        $topKomoditas = array_slice($allKomoditas, 0, 3);
 
         return [
             'labels' => $labels,
-            'isu_masuk' => $isuMasukData,
-            'isu_selesai' => $isuSelesaiData,
-            'top_komoditas' => $top3,
+            'harga_rata_rata' => $hargaRataRata,
+            'harga_het' => $hargaHet,
+            'harga_beras' => $hargaBeras,
+            'harga_cabai' => $hargaCabai,
+            'harga_minyak' => $hargaMinyak,
+            'latest_upload_info' => $latestUploadInfo,
+            'top_komoditas' => $topKomoditas,
+            'all_komoditas' => $allKomoditas,
+            // Backwards compatibility
+            'isu_masuk' => array_fill(0, count($labels), 0),
+            'isu_selesai' => array_fill(0, count($labels), 0),
         ];
     }
 

@@ -7,12 +7,9 @@
                 &larr; Kembali ke Detail Isu
             </a>
             <div style="display:flex;align-items:center;gap:0.75rem;">
-                <h1 style="font-size:1.5rem;font-weight:700;margin:0;">Rencana Intervensi & Tindak Lanjut (Tahap 5)</h1>
+                <h1 style="font-size:1.5rem;font-weight:700;margin:0;">Rencana Intervensi & Tindak Lanjut (Tahap 4)</h1>
                 <span class="cell-code" style="font-size:1.1rem;">{{ $issue->kode_isu }}</span>
             </div>
-            <p style="color:var(--clr-ink-2);font-size:0.88rem;margin:0.25rem 0 0;">
-                Input langkah nyata stabilisasi pasar seperti operasi pasar murah, inspeksi pergudangan, atau koordinasi antarinstansi.
-            </p>
         </div>
 
         @if($errors->any())
@@ -28,7 +25,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('intervensi.store', $issue) }}" class="sp-card" style="padding:2rem;">
+        <form method="POST" action="{{ route('intervensi.store', $issue) }}" enctype="multipart/form-data" class="sp-card" style="padding:2rem;">
             @csrf
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
@@ -53,16 +50,10 @@
                 </div>
             </div>
 
-            {{-- Deskripsi --}}
+            {{-- Ringkasan Hasil Intervensi --}}
             <div class="sp-form-group">
-                <label class="sp-label">Deskripsi & Rincian Rencana Tindakan <span class="required">*</span></label>
-                <textarea name="deskripsi" rows="3" required placeholder="Jelaskan volume komoditas yang digelontorkan, rute sidak, atau pokok koordinasi..." class="sp-textarea">{{ old('deskripsi') }}</textarea>
-            </div>
-
-            {{-- Hasil Diharapkan --}}
-            <div class="sp-form-group">
-                <label class="sp-label">Hasil yang Diharapkan (Target Penurunan Harga / Pasokan)</label>
-                <input type="text" name="hasil_diharapkan" value="{{ old('hasil_diharapkan') }}" placeholder="Contoh: Menurunkan harga beras premium ke batas HET Rp 14.000/kg" class="sp-input">
+                <label class="sp-label">Ringkasan Hasil Intervensi <span class="required">*</span></label>
+                <textarea name="deskripsi" rows="3" required placeholder="Jelaskan ringkasan hasil kegiatan intervensi, volume komoditas, atau catatan tindak lanjut..." class="sp-textarea">{{ old('deskripsi') }}</textarea>
             </div>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
@@ -93,17 +84,17 @@
                 </div>
             </div>
 
-            {{-- Instansi Terlibat --}}
-            <div class="sp-form-group">
-                <label class="sp-label">Instansi yang Terlibat (Pilih / Centang)</label>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:0.6rem;background:var(--clr-ground-4);padding:1rem;border-radius:6px;">
-                    @foreach(['Dinas Perdagangan', 'Perum Bulog', 'Satgas Pangan POLRI', 'Dinas Pertanian', 'PD Pasar Surya', 'Satpol PP'] as $inst)
-                    <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--clr-ink);cursor:pointer;">
-                        <input type="checkbox" name="instansi_terlibat[]" value="{{ $inst }}" {{ in_array($inst, old('instansi_terlibat', [])) ? 'checked' : '' }}>
-                        {{ $inst }}
-                    </label>
-                    @endforeach
-                </div>
+            {{-- Dokumen Pendukung (PDF / Word Opsional) --}}
+            <div class="sp-form-group" style="margin-top:1.25rem;">
+                <label class="sp-label" for="dokumen_pendukung">
+                    Dokumen Pendukung
+                </label>
+                <input type="file" 
+                       id="dokumen_pendukung" 
+                       name="dokumen_pendukung" 
+                       accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+                       class="sp-input"
+                       style="padding:8px 12px;cursor:pointer;">
             </div>
 
             <div style="display:flex;justify-content:flex-end;gap:1rem;margin-top:2rem;">

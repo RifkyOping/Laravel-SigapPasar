@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="SIGAP PASAR — Sistem Pengawasan, Deteksi Siber, dan Intervensi Pasar Dinas Koperasi dan UKM, Perindustrian dan Perdagangan Provinsi Sulawesi Barat">
+    <meta name="description"
+        content="SIGAP PASAR — Sistem Pengawasan, Deteksi Siber, dan Intervensi Pasar Dinas Koperasi dan UKM, Perindustrian dan Perdagangan Provinsi Sulawesi Barat">
     <title>SIGAP PASAR &mdash; Diskoperindag Prov. Sulawesi Barat</title>
 
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
@@ -12,7 +14,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap"
+        rel="stylesheet">
     <script>
         (function() {
             try {
@@ -29,32 +33,42 @@
     <style>
         :root {
             /* ─── Token Warna Resmi README.md Bagian 0 ─── */
-            --color-primary:      #2e7d32;   /* Hutan Sulbar - Primer */
-            --color-primary-dark: #1b5e20;   /* Hutan Gelap */
-            --color-accent:       #4caf50;   /* Daun */
-            --color-surface:      #e8f5e9;   /* Embun */
-            --color-surface-card: #ffffff;   /* Panel Putih Bersih */
-            --color-bg:           #f7faf7;   /* Kertas */
-            --color-ink:          #0f172a;   /* Tinta Primer Slate-900 (Ultra Kontras) */
-            --color-ink-muted:    #334155;   /* Tinta Sekunder Slate-700 (Kontras Tinggi) */
-            
+            --color-primary: #2e7d32;
+            /* Hutan Sulbar - Primer */
+            --color-primary-dark: #1b5e20;
+            /* Hutan Gelap */
+            --color-accent: #4caf50;
+            /* Daun */
+            --color-surface: #e8f5e9;
+            /* Embun */
+            --color-surface-card: #ffffff;
+            /* Panel Putih Bersih */
+            --color-bg: #f7faf7;
+            /* Kertas */
+            --color-ink: #0f172a;
+            /* Tinta Primer Slate-900 (Ultra Kontras) */
+            --color-ink-muted: #334155;
+            /* Tinta Sekunder Slate-700 (Kontras Tinggi) */
+
             /* Tipografi */
             --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
-            --font-body:    'Poppins', system-ui, -apple-system, sans-serif;
-            
+            --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
+
             /* Skala Presisi README (15 / 16 / 20 / 28 / 84 px) */
             --step-display: clamp(38px, 6vw, 84px);
-            --step-head:    28px;
-            --step-lead:    20px;
-            --step-body:    16px;
-            --step-small:   15px;
+            --step-head: 28px;
+            --step-lead: 20px;
+            --step-body: 16px;
+            --step-small: 15px;
 
-            --radius-base:  8px;
+            --radius-base: 8px;
             --radius-panel: 12px;
-            --max-w:        1200px;
+            --max-w: 1200px;
         }
 
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -82,6 +96,7 @@
             transform: translateY(16px);
             transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .reveal-node.is-revealed {
             opacity: 1;
             transform: translateY(0);
@@ -102,6 +117,7 @@
             transition: top 0.2s ease;
             text-decoration: none;
         }
+
         .skip-link:focus {
             top: 16px;
         }
@@ -218,6 +234,7 @@
                 opacity: 0;
                 transform: translateY(-4px) scale(0.96);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -229,6 +246,7 @@
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
+
             to {
                 opacity: 0;
                 transform: translateY(-4px) scale(0.96);
@@ -473,7 +491,7 @@
             line-height: 1.4;
         }
 
-        /* ─── 04. Alur Penanganan 6 Tahap ─── */
+        /* ─── 04. Alur Penanganan 4 Tahap ─── */
         .section-alur {
             padding: 48px 0;
             border-top: 2px solid var(--color-surface);
@@ -820,46 +838,184 @@
 
         /* ─── Responsive Media Queries ─── */
         @media (max-width: 1024px) {
-            .hero-grid { grid-template-columns: 1fr; gap: 36px; }
-            .timeline-card { grid-template-columns: 1fr; gap: 14px; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .audit-panel { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+
+            .timeline-card {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .audit-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
         }
 
         @media (max-width: 640px) {
-            .container { padding: 0 16px; }
-            .header-nav-link { display: none; }
-            .header-nav { gap: 10px; }
-            .btn-header-login { padding: 7px 15px; min-height: 36px; font-size: 13px; }
-            .hero-title { font-size: 32px; line-height: 1.1; }
-            .hero-lead { font-size: var(--step-body); }
-            .gallery-grid { grid-template-columns: 1fr; }
-            .audit-panel { padding: 24px; }
-            .case-card { padding: 20px; }
+            .container {
+                padding: 0 16px;
+            }
+
+            .header-nav-link {
+                display: none;
+            }
+
+            .header-nav {
+                gap: 10px;
+            }
+
+            .btn-header-login {
+                padding: 7px 15px;
+                min-height: 36px;
+                font-size: 13px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+                line-height: 1.1;
+            }
+
+            .hero-lead {
+                font-size: var(--step-body);
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .audit-panel {
+                padding: 24px;
+            }
+
+            .case-card {
+                padding: 20px;
+            }
 
             /* Tampilan responsif tabel di mobile */
-            .summary-table-wrap { overflow: visible; border: none; background: transparent; }
-            .summary-table, .summary-table tbody, .summary-table tr { display: block; width: 100%; }
-            .summary-table thead { display: none; }
-            .summary-table tbody { display: flex; flex-direction: column; gap: 12px; }
-            .summary-table td { background: #ffffff; border: 2px solid var(--color-surface); border-radius: var(--radius-base); padding: 14px 18px; }
-            .summary-table td::before { content: attr(data-label); display: block; font-family: var(--font-body); font-size: 14px; font-weight: 700; color: var(--color-ink-muted); margin-bottom: 6px; }
+            .summary-table-wrap {
+                overflow: visible;
+                border: none;
+                background: transparent;
+            }
 
-            .wilayah-table-wrap { overflow: visible; border: none; background: transparent; }
-            .wilayah-table, .wilayah-table tbody, .wilayah-table tr, .wilayah-table td { display: block; width: 100%; }
-            .wilayah-table thead { display: none; }
-            .wilayah-table tr { background: #ffffff; border: 2px solid var(--color-surface); border-radius: var(--radius-base); margin-bottom: 10px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
-            .wilayah-table td { padding: 0; border: none; }
+            .summary-table,
+            .summary-table tbody,
+            .summary-table tr {
+                display: block;
+                width: 100%;
+            }
+
+            .summary-table thead {
+                display: none;
+            }
+
+            .summary-table tbody {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .summary-table td {
+                background: #ffffff;
+                border: 2px solid var(--color-surface);
+                border-radius: var(--radius-base);
+                padding: 14px 18px;
+            }
+
+            .summary-table td::before {
+                content: attr(data-label);
+                display: block;
+                font-family: var(--font-body);
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--color-ink-muted);
+                margin-bottom: 6px;
+            }
+
+            .wilayah-table-wrap {
+                overflow: visible;
+                border: none;
+                background: transparent;
+            }
+
+            .wilayah-table,
+            .wilayah-table tbody,
+            .wilayah-table tr,
+            .wilayah-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .wilayah-table thead {
+                display: none;
+            }
+
+            .wilayah-table tr {
+                background: #ffffff;
+                border: 2px solid var(--color-surface);
+                border-radius: var(--radius-base);
+                margin-bottom: 10px;
+                padding: 14px 18px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .wilayah-table td {
+                padding: 0;
+                border: none;
+            }
         }
 
         @media (max-width: 768px) {
-            .table-peran-wrap { overflow: visible; border: none; background: transparent; }
-            .table-peran, .table-peran tbody, .table-peran tr, .table-peran td { display: block; width: 100%; min-width: 0; }
-            .table-peran thead { display: none; }
-            .table-peran tr { background: #ffffff; border: 2px solid var(--color-surface); border-radius: var(--radius-panel); margin-bottom: 16px; padding: 18px 20px; }
-            .table-peran td { padding: 6px 0; border: none; }
-            .table-peran td:first-child { border-bottom: 1px solid var(--color-surface); padding-bottom: 12px; margin-bottom: 10px; }
+            .table-peran-wrap {
+                overflow: visible;
+                border: none;
+                background: transparent;
+            }
+
+            .table-peran,
+            .table-peran tbody,
+            .table-peran tr,
+            .table-peran td {
+                display: block;
+                width: 100%;
+                min-width: 0;
+            }
+
+            .table-peran thead {
+                display: none;
+            }
+
+            .table-peran tr {
+                background: #ffffff;
+                border: 2px solid var(--color-surface);
+                border-radius: var(--radius-panel);
+                margin-bottom: 16px;
+                padding: 18px 20px;
+            }
+
+            .table-peran td {
+                padding: 6px 0;
+                border: none;
+            }
+
+            .table-peran td:first-child {
+                border-bottom: 1px solid var(--color-surface);
+                padding-bottom: 12px;
+                margin-bottom: 10px;
+            }
         }
 
         /* ─── Theme Toggle Button ─── */
@@ -889,14 +1045,14 @@
 
         /* ─── Dark Mode Overrides for Welcome Page ─── */
         html[data-theme="dark"] {
-            --color-primary:      #4caf50;
+            --color-primary: #4caf50;
             --color-primary-dark: #81c784;
-            --color-accent:       #66bb6a;
-            --color-surface:      #162335;
+            --color-accent: #66bb6a;
+            --color-surface: #162335;
             --color-surface-card: #111a28;
-            --color-bg:           #0B0F1A;
-            --color-ink:          #F0F4FF;
-            --color-ink-muted:    #9BA8C2;
+            --color-bg: #0B0F1A;
+            --color-ink: #F0F4FF;
+            --color-ink-muted: #9BA8C2;
         }
 
         html[data-theme="dark"],
@@ -1094,6 +1250,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- A11y Skip link -->
@@ -1103,7 +1260,8 @@
     <header class="site-header" role="banner">
         <div class="container header-wrap">
             <a href="/" class="header-brand" aria-label="Beranda SIGAP PASAR Sulawesi Barat">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo Diskoperindag Provinsi Sulawesi Barat" class="header-logo">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo Diskoperindag Provinsi Sulawesi Barat"
+                    class="header-logo">
                 <div class="brand-titles">
                     <span class="brand-title-main">SIGAP PASAR</span>
                     <span class="brand-title-sub">Diskoperindag Prov. Sulawesi Barat</span>
@@ -1128,9 +1286,13 @@
                 </nav>
 
                 {{-- Tombol Ganti Tema --}}
-                <button id="welcome-theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" type="button" title="Ganti Tema (Gelap / Terang)" aria-label="Ganti Tema Tampilan">
+                <button id="welcome-theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" type="button"
+                    title="Ganti Tema (Gelap / Terang)" aria-label="Ganti Tema Tampilan">
                     <span id="theme-icon" style="display:inline-flex;align-items:center;">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
                     </span>
                     <span id="theme-label">Tema Gelap</span>
                 </button>
@@ -1145,14 +1307,16 @@
                 <!-- Kolom Kiri -->
                 <div>
                     <h1 class="hero-title">
-                        SIGAP PASAR
+                        ISU VIRAL
+                        DITANGANI TUNTAS
                     </h1>
                     <p class="hero-lead">
-                        Membantu menghubungkan pantauan media sosial dengan pengecekan langsung di pasar di enam kabupaten Sulawesi Barat.
+                        Membantu menghubungkan pantauan media sosial dengan pengecekan langsung di pasar di enam
+                        kabupaten Sulawesi Barat.
                     </p>
                     <nav class="hero-actions" aria-label="Aksi Utama">
                         <a href="{{ route('login') }}" class="btn-primary-hero" id="hero-login-btn">
-                            Masuk ke sistem
+                            Masuk
                         </a>
                     </nav>
                 </div>
@@ -1179,19 +1343,13 @@
 
                             <div class="step-item">
                                 <div class="step-dot"></div>
-                                <div class="step-text-title">Diverifikasi</div>
-                                <div class="step-text-actor">Oleh Verifikator kelayakan data isu</div>
+                                <div class="step-text-title">Penugasan &amp; Cek Lapangan</div>
+                                <div class="step-text-actor">Oleh Petugas Lapangan &amp; Admin via Geotagging GPS</div>
                             </div>
 
                             <div class="step-item">
                                 <div class="step-dot"></div>
-                                <div class="step-text-title">Dicek lapangan</div>
-                                <div class="step-text-actor">Oleh Petugas via Geotagging GPS</div>
-                            </div>
-
-                            <div class="step-item">
-                                <div class="step-dot"></div>
-                                <div class="step-text-title">Operasi pasar</div>
+                                <div class="step-text-title">Langkah Intervensi</div>
                                 <div class="step-text-actor">Oleh Admin bersama Tim Satgas Pangan &amp; Bulog</div>
                             </div>
 
@@ -1220,27 +1378,28 @@
                             <tr>
                                 <th scope="col">Isu masuk bulan ini</th>
                                 <th scope="col">Sudah selesai</th>
-                                <th scope="col">Rata-rata waktu penanganan</th>
                                 <th scope="col">Isu aktif</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td data-label="Isu masuk bulan ini">
-                                    <span class="stat-value">{{ (isset($isuBulanIni) && $isuBulanIni > 0) ? $isuBulanIni : 0 }}</span>
-                                    <span class="summary-empty-note">{{ (isset($isuBulanIni) && $isuBulanIni > 0) ? 'Laporan terdata' : 'Belum ada data bulan ini' }}</span>
+                                    <span
+                                        class="stat-value">{{ isset($isuBulanIni) && $isuBulanIni > 0 ? $isuBulanIni : 0 }}</span>
+                                    <span
+                                        class="summary-empty-note">{{ isset($isuBulanIni) && $isuBulanIni > 0 ? 'Laporan terdata' : 'Belum ada data bulan ini' }}</span>
                                 </td>
                                 <td data-label="Sudah selesai">
-                                    <span class="stat-value">{{ (isset($selesaiCount) && $selesaiCount > 0) ? $selesaiCount : 0 }}</span>
-                                    <span class="summary-empty-note">{{ (isset($selesaiCount) && $selesaiCount > 0) ? 'Telah dituntaskan' : 'Belum ada data bulan ini' }}</span>
-                                </td>
-                                <td data-label="Rata-rata penanganan">
-                                    <span class="stat-value">{{ (isset($avgSla) && $avgSla > 0) ? round($avgSla, 1) . ' Hari' : '< 2 Hari' }}</span>
-                                    <span class="summary-empty-note">{{ (isset($avgSla) && $avgSla > 0) ? 'Waktu resolusi riil' : 'Target SLA standar' }}</span>
+                                    <span
+                                        class="stat-value">{{ isset($selesaiCount) && $selesaiCount > 0 ? $selesaiCount : 0 }}</span>
+                                    <span
+                                        class="summary-empty-note">{{ isset($selesaiCount) && $selesaiCount > 0 ? 'Telah dituntaskan' : 'Belum ada data bulan ini' }}</span>
                                 </td>
                                 <td data-label="Isu aktif">
-                                    <span class="stat-value">{{ (isset($isuAktif) && $isuAktif > 0) ? $isuAktif : 0 }}</span>
-                                    <span class="summary-empty-note">{{ (isset($isuAktif) && $isuAktif > 0) ? 'Dalam penanganan' : 'Kondisi pasar aman' }}</span>
+                                    <span
+                                        class="stat-value">{{ isset($isuAktif) && $isuAktif > 0 ? $isuAktif : 0 }}</span>
+                                    <span
+                                        class="summary-empty-note">{{ isset($isuAktif) && $isuAktif > 0 ? 'Dalam penanganan' : 'Kondisi pasar aman' }}</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -1250,13 +1409,14 @@
         </section>
 
 
-        <!-- [04. Alur Penanganan 6 Tahap Sesuai README Bagian 3] -->
+        <!-- [04. Alur Penanganan 4 Tahap Sesuai Rantai Komando] -->
         <section id="alur" class="section-alur" aria-label="Alur Penanganan Isu Pasar">
             <div class="container">
                 <header class="section-header-block">
                     <h2 class="section-title">Dari postingan viral sampai harga normal</h2>
                     <p class="section-desc">
-                        Setiap isu pasar diproses melalui alur enam tahap yang transparan dengan tanggung jawab aktor yang tegas.
+                        Setiap isu pasar diproses melalui alur empat tahap yang transparan dengan tanggung jawab aktor
+                        yang tegas.
                     </p>
                 </header>
 
@@ -1269,82 +1429,55 @@
                         </div>
                         <div class="t-work-col">
                             <h3>Deteksi dan input isu</h3>
-                            <p>Memantau linimasa media sosial (TikTok, X, FB, IG) dan mencatat tautan, engagement interaksi, kutipan keluhan warga, komoditas, serta lokasi pasar spesifik.</p>
+                            <p>Memantau linimasa media sosial (TikTok, X, FB, IG) dan mencatat tautan, engagement
+                                interaksi, kutipan keluhan warga, komoditas, serta lokasi pasar spesifik.</p>
                         </div>
                         <div class="t-result-col">
                             Hasil: Laporan isu baru tercatat dengan skor virality otomatis.
                         </div>
                     </li>
 
-                    <!-- Tahap 2 -->
+                    <!-- Tahap 2: Gabungan Penugasan & Cek Fisik Lapangan -->
                     <li class="timeline-card">
                         <div class="t-stage-col">
                             <span class="t-stage-num">Tahap 2</span>
-                            <span class="t-stage-actor">Verifikator</span>
+                            <span class="t-stage-actor">Petugas &amp; Admin</span>
                         </div>
                         <div class="t-work-col">
-                            <h3>Verifikasi laporan</h3>
-                            <p>Menyaring kebenaran isu, memverifikasi bukti tangkapan layar, mendeteksi potensi hoaks, menggabungkan isu duplikat, dan menetapkan skala prioritas penanganan.</p>
+                            <h3>Penugasan dan cek fisik lapangan</h3>
+                            <p>Petugas lapangan memilih isu atau ditugaskan oleh Admin Sistem, mendatangi lokasi pasar, melakukan check-in koordinat GPS Geolocation, mencatat harga riil aktual pedagang, mengambil foto ber-watermark waktu, dan memverifikasi ketersediaan pasokan.</p>
                         </div>
                         <div class="t-result-col">
-                            Hasil: Laporan berstatus valid dengan rekomendasi prioritas resmi.
+                            Hasil: Laporan verifikasi faktual harga dan ketersediaan pasokan riil lapangan.
                         </div>
                     </li>
 
-                    <!-- Tahap 3 -->
+                    <!-- Tahap 3 (sebelumnya Tahap 4) -->
                     <li class="timeline-card">
                         <div class="t-stage-col">
                             <span class="t-stage-num">Tahap 3</span>
-                            <span class="t-stage-actor">Admin Sistem</span>
-                        </div>
-                        <div class="t-work-col">
-                            <h3>Penugasan lapangan</h3>
-                            <p>Meneruskan isu valid ke dashboard penugasan dan menunjuk Petugas spesifik di kabupaten terkait disertai notifikasi surat tugas ke email petugas.</p>
-                        </div>
-                        <div class="t-result-col">
-                            Hasil: Surat penugasan resmi digital terbit ke petugas.
-                        </div>
-                    </li>
-
-                    <!-- Tahap 4 -->
-                    <li class="timeline-card">
-                        <div class="t-stage-col">
-                            <span class="t-stage-num">Tahap 4</span>
-                            <span class="t-stage-actor">Petugas</span>
-                        </div>
-                        <div class="t-work-col">
-                            <h3>Cek fisik dan laporan lapangan</h3>
-                            <p>Mendatangi lokasi pasar, melakukan check-in koordinat GPS Geolocation, mencatat harga riil pedagang, mengambil foto ber-watermark waktu, dan mewawancarai pasokan pedagang.</p>
-                        </div>
-                        <div class="t-result-col">
-                            Hasil: Laporan verifikasi faktual harga dan ketersediaan pasokan riil.
-                        </div>
-                    </li>
-
-                    <!-- Tahap 5 -->
-                    <li class="timeline-card">
-                        <div class="t-stage-col">
-                            <span class="t-stage-num">Tahap 5</span>
                             <span class="t-stage-actor">Admin &amp; Instansi</span>
                         </div>
                         <div class="t-work-col">
                             <h3>Intervensi pasar dan koordinasi</h3>
-                            <p>Jika temuan terbukti anomali, Admin mengoordinasikan intervensi nyata bersama Perum Bulog dan Satgas Pangan: Operasi Pasar Murah, sidak gudang, atau subsidi angkutan.</p>
+                            <p>Jika temuan terbukti anomali, Admin mengoordinasikan intervensi nyata bersama Perum Bulog
+                                dan Satgas Pangan: Operasi Pasar Murah, sidak gudang, atau subsidi angkutan.</p>
                         </div>
                         <div class="t-result-col">
                             Hasil: Pelaksanaan operasi stabilisasi pasokan dan update berkala.
                         </div>
                     </li>
 
-                    <!-- Tahap 6 -->
+                    <!-- Tahap 4 (sebelumnya Tahap 5) -->
                     <li class="timeline-card">
                         <div class="t-stage-col">
-                            <span class="t-stage-num">Tahap 6</span>
+                            <span class="t-stage-num">Tahap 4</span>
                             <span class="t-stage-actor">Admin Sistem</span>
                         </div>
                         <div class="t-work-col">
                             <h3>Hasil akhir dan penutupan isu</h3>
-                            <p>Mengevaluasi komparasi harga Sebelum vs Sesudah intervensi, memastikan harga kembali dalam ambang batas HET, mencatat berita acara penutupan, dan mengunci SLA.</p>
+                            <p>Mengevaluasi komparasi harga Sebelum vs Sesudah intervensi, memastikan harga kembali
+                                dalam ambang batas HET, serta mencatat berita acara penutupan.</p>
                         </div>
                         <div class="t-result-col">
                             Hasil: Isu resmi ditutup dengan status Selesai.
@@ -1382,7 +1515,10 @@
                                 </td>
                                 <td>
                                     <div class="peran-tugas-text">
-                                        Memantau ringkasan berkala dinamika isu pasar pangan dan perkembangan tren harga komoditas pokok setiap hari, minggu, bulan, dan tahunnya di 6 kabupaten Sulawesi Barat, didukung peta sebaran spasial titik isu untuk perumusan kebijakan intervensi strategis.
+                                        Memantau ringkasan berkala dinamika isu pasar pangan dan perkembangan tren harga
+                                        komoditas pokok setiap hari, minggu, bulan, dan tahunnya di 6 kabupaten Sulawesi
+                                        Barat, didukung peta sebaran spasial titik isu untuk perumusan kebijakan
+                                        intervensi strategis.
                                     </div>
                                     <div class="peran-akses-row">
                                         <span class="peran-akses-label">Akses Setelah Masuk:</span>
@@ -1402,7 +1538,10 @@
                                 </td>
                                 <td>
                                     <div class="peran-tugas-text">
-                                        Mengendalikan rantai operasional dinas secara terpadu: menerbitkan surat tugas inspeksi lapangan, memimpin agenda intervensi (operasi pasar murah, sidak distributor), mengesahkan penutupan resolusi isu, serta mengelola data master wilayah/komoditas dan manajemen akun pengguna.
+                                        Mengendalikan rantai operasional dinas secara terpadu: menerbitkan surat tugas
+                                        inspeksi lapangan, memimpin agenda intervensi (operasi pasar murah, sidak
+                                        distributor), mengesahkan penutupan resolusi isu, serta mengelola data master
+                                        wilayah/komoditas dan manajemen akun pengguna.
                                     </div>
                                     <div class="peran-akses-row">
                                         <span class="peran-akses-label">Akses Setelah Masuk:</span>
@@ -1425,7 +1564,9 @@
                                 </td>
                                 <td>
                                     <div class="peran-tugas-text">
-                                        Memantau linimasa media sosial dan mencatat temuan isu pasar yang viral (tautan postingan, metrik interaksi & engagement, kalkulasi virality score, jenis komoditas, lokasi kabupaten/pasar, dan unggahan bukti tangkapan layar).
+                                        Memantau linimasa media sosial dan mencatat temuan isu pasar yang viral (tautan
+                                        postingan, metrik interaksi & engagement, kalkulasi virality score, jenis
+                                        komoditas, lokasi kabupaten/pasar, dan unggahan bukti tangkapan layar).
                                     </div>
                                     <div class="peran-akses-row">
                                         <span class="peran-akses-label">Akses Setelah Masuk:</span>
@@ -1438,32 +1579,16 @@
                             <tr>
                                 <td>
                                     <div class="peran-col-header">
-                                        <div class="peran-name">Verifikator</div>
-                                        <span class="peran-tahap-badge">Tahap 2: Verifikasi Laporan</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="peran-tugas-text">
-                                        Menyaring kelayakan laporan siber yang masuk, memeriksa indikasi duplikasi isu antarpostingan (Merge Issue), memvalidasi status kelayakan (Valid, Butuh Cek Lapangan, Hoaks), dan menentukan tingkat prioritas penanganan.
-                                    </div>
-                                    <div class="peran-akses-row">
-                                        <span class="peran-akses-label">Akses Setelah Masuk:</span>
-                                        <span class="akses-tag">Dashboard</span>
-                                        <span class="akses-tag">Semua Isu</span>
-                                        <span class="akses-tag">Antrian Verifikasi</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="peran-col-header">
                                         <div class="peran-name">Petugas</div>
-                                        <span class="peran-tahap-badge">Tahap 3: Cek Fisik Lapangan</span>
+                                        <span class="peran-tahap-badge">Tahap 2: Cek Fisik Lapangan</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="peran-tugas-text">
-                                        Mendatangi lokasi pasar fisik, melakukan check-in koordinat GPS langsung di titik lapak, mencatat harga riil aktual pedagang, menginput hasil wawancara kondisi stok, dan mengunggah foto bukti ber-timestamp.
+                                        Memilih langsung isu yang masuk di wilayah kerjanya, mendatangi lokasi pasar
+                                        fisik, melakukan check-in koordinat GPS langsung di titik lapak, mencatat harga
+                                        riil aktual pedagang, menginput hasil wawancara kondisi stok, dan mengunggah
+                                        foto bukti ber-timestamp.
                                     </div>
                                     <div class="peran-akses-row">
                                         <span class="peran-akses-label">Akses Setelah Masuk:</span>
@@ -1485,20 +1610,24 @@
             <div class="footer-grid">
                 <div>
                     <div class="footer-brand-wrap">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo Diskoperindag Provinsi Sulawesi Barat" class="footer-logo">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo Diskoperindag Provinsi Sulawesi Barat"
+                            class="footer-logo">
                         <div>
                             <div class="footer-agency-name">SIGAP PASAR</div>
-                            <div class="footer-agency-sub">Dinas Koperasi dan UKM, Perindustrian dan Perdagangan Provinsi Sulawesi Barat</div>
+                            <div class="footer-agency-sub">Dinas Koperasi dan UKM, Perindustrian dan Perdagangan
+                                Provinsi Sulawesi Barat</div>
                         </div>
                     </div>
                     <p class="footer-address">
-                        Kompleks Perkantoran Gubernur Sulawesi Barat, Jl. H. Abd. Malik Pattana Endeng, Rangas, Kec. Simboro, Kabupaten Mamuju, Sulawesi Barat 91512.
+                        Kompleks Perkantoran Gubernur Sulawesi Barat, Jl. H. Abd. Malik Pattana Endeng, Rangas, Kec.
+                        Simboro, Kabupaten Mamuju, Sulawesi Barat 91512.
                     </p>
                 </div>
 
                 <div class="footer-actions-col">
                     <p style="font-size: var(--step-body); color: #c8e6c9;">
-                        Sistem informasi resmi penanganan isu stabilitas harga dan ketersediaan bahan pangan pokok daerah.
+                        Sistem informasi resmi penanganan isu stabilitas harga dan ketersediaan bahan pangan pokok
+                        daerah.
                     </p>
                 </div>
             </div>
@@ -1506,9 +1635,6 @@
             <div class="footer-bottom">
                 <div>
                     &copy; 2026 Dinas Koperasi dan UKM, Perindustrian dan Perdagangan Provinsi Sulawesi Barat.
-                </div>
-                <div>
-                    Warna Utama: #2e7d32 &bull; Sistem Tanggap Cepat Pangan Daerah
                 </div>
             </div>
         </div>
@@ -1520,7 +1646,7 @@
             // Cek prefers-reduced-motion
             const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
             const fillBar = document.getElementById('stepper-fill');
-            
+
             if (mediaQuery.matches) {
                 if (fillBar) fillBar.style.height = '100%';
             } else {
@@ -1539,7 +1665,9 @@
                 entries.forEach(e => {
                     if (e.isIntersecting) e.target.classList.add('is-revealed');
                 });
-            }, { threshold: 0.08 });
+            }, {
+                threshold: 0.08
+            });
             sections.forEach(s => obs.observe(s));
         });
 
@@ -1548,18 +1676,20 @@
             const icon = document.getElementById('theme-icon');
             const label = document.getElementById('theme-label');
             const btn = document.getElementById('welcome-theme-toggle');
-            
+
             if (theme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 if (icon) {
-                    icon.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+                    icon.innerHTML =
+                        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
                 }
                 if (label) label.textContent = 'Tema Terang';
                 if (btn) btn.setAttribute('title', 'Beralih ke Tema Terang');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
                 if (icon) {
-                    icon.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+                    icon.innerHTML =
+                        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
                 }
                 if (label) label.textContent = 'Tema Gelap';
                 if (btn) btn.setAttribute('title', 'Beralih ke Tema Gelap');
@@ -1621,6 +1751,7 @@
             }
 
             let ticking = false;
+
             function onScrollHandler() {
                 if (!ticking) {
                     window.requestAnimationFrame(() => {
@@ -1631,11 +1762,16 @@
                 }
             }
 
-            window.addEventListener('scroll', onScrollHandler, { passive: true });
-            window.addEventListener('resize', onScrollHandler, { passive: true });
+            window.addEventListener('scroll', onScrollHandler, {
+                passive: true
+            });
+            window.addEventListener('resize', onScrollHandler, {
+                passive: true
+            });
             document.addEventListener('DOMContentLoaded', updateHeaderLoginBtn);
             setTimeout(updateHeaderLoginBtn, 20);
         })();
     </script>
 </body>
+
 </html>

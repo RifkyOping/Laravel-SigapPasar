@@ -78,7 +78,7 @@
 
             {{-- Kutipan Postingan --}}
             <div class="sp-form-group">
-                <label class="sp-label">Kutipan / Transkrip Postingan Isu <span class="required">*</span></label>
+                <label class="sp-label">Ringkasan Isu <span class="required">*</span></label>
                 <textarea name="kutipan_postingan" rows="3" required placeholder="Tuliskan isi keluhan masyarakat atau kutipan narasi postingan..." class="sp-textarea">{{ old('kutipan_postingan') }}</textarea>
             </div>
 
@@ -119,11 +119,11 @@
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
                 {{-- Kabupaten/Kota --}}
                 <div class="sp-form-group">
-                    <label class="sp-label">Wilayah Kabupaten / Kota <span class="required">*</span></label>
+                    <label class="sp-label">Wilayah <span class="required">*</span></label>
                     <select name="kabupaten_id" required class="sp-select">
-                        <option value="">-- Pilih Kabupaten/Kota --</option>
+                        <option value="">-- Pilih Wilayah --</option>
                         @foreach($kabupaten as $kab)
-                        <option value="{{ $kab->id }}" {{ old('kabupaten_id') == $kab->id ? 'selected' : '' }}>{{ $kab->name }}</option>
+                        <option value="{{ $kab->id }}" {{ old('kabupaten_id') == $kab->id ? 'selected' : '' }}>{{ preg_replace('/^Kabupaten\s+/i', '', $kab->name) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -142,16 +142,10 @@
                 <small style="color:var(--clr-ink-3);font-size:0.75rem;">Format diperbolehkan: JPG, PNG, WEBP, PDF (Maks. 10MB).</small>
             </div>
 
-            {{-- Catatan Tambahan --}}
-            <div class="sp-form-group">
-                <label class="sp-label">Catatan Tambahan Pengawas</label>
-                <textarea name="catatan_input" rows="2" placeholder="Catatan internal pengawas..." class="sp-textarea">{{ old('catatan_input') }}</textarea>
-            </div>
-
             <div style="display:flex;justify-content:flex-end;gap:1rem;margin-top:2rem;">
                 <a href="{{ route('issues.index') }}" class="sp-btn sp-btn-secondary">Batal</a>
                 <button type="submit" class="sp-btn sp-btn-primary">
-                    Simpan & Teruskan ke Verifikator &rarr;
+                    Simpan & Laporkan Isu &rarr;
                 </button>
             </div>
         </form>

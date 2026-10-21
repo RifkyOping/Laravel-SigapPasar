@@ -3,7 +3,6 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IssueController;
-use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\PenugasanController;
 use App\Http\Controllers\LaporanLapanganController;
 use App\Http\Controllers\IntervensiController;
@@ -58,28 +57,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('role:admin,super_admin')
         ->whereNumber('issue');
 
-    // ─── Verifikasi (Tahap 2) ────────────────────────────────────
-    Route::middleware('role:verifikator,admin,super_admin')->group(function () {
-        Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
-        Route::get('/verifikasi/{issue}', [VerifikasiController::class, 'show'])->name('verifikasi.show');
-        Route::post('/verifikasi/{issue}', [VerifikasiController::class, 'store'])->name('verifikasi.store');
-    });
-
-    // ─── Penugasan (Tahap 3) ─────────────────────────────────────
+    // ─── Penugasan (Tahap 2) ─────────────────────────────────────
     Route::middleware('role:admin,super_admin')->group(function () {
         Route::get('/penugasan', [PenugasanController::class, 'index'])->name('penugasan.index');
         Route::post('/penugasan/{issue}', [PenugasanController::class, 'store'])->name('penugasan.store');
     });
 
-    // ─── Laporan Lapangan (Tahap 4) ──────────────────────────────
+    // ─── Laporan Lapangan (Tahap 3) ──────────────────────────────
     Route::middleware('role:petugas_lapangan')->group(function () {
         Route::get('/laporan', [LaporanLapanganController::class, 'index'])->name('laporan.index');
+        Route::post('/laporan/ambil/{issue}', [LaporanLapanganController::class, 'ambilTugas'])->name('laporan.ambil')->whereNumber('issue');
         Route::get('/laporan/{assignment}', [LaporanLapanganController::class, 'show'])->name('laporan.show');
         Route::post('/laporan/{assignment}/checkin', [LaporanLapanganController::class, 'checkin'])->name('laporan.checkin');
         Route::post('/laporan/{assignment}/submit', [LaporanLapanganController::class, 'submitLaporan'])->name('laporan.submit');
     });
 
-    // ─── Intervensi (Tahap 5) ────────────────────────────────────
+    // ─── Intervensi (Tahap 4) ────────────────────────────────────
     Route::middleware('role:admin,super_admin')->group(function () {
         Route::get('/intervensi', [IntervensiController::class, 'index'])->name('intervensi.index');
         Route::get('/intervensi/buat/{issue}', [IntervensiController::class, 'create'])->name('intervensi.create');
@@ -87,7 +80,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/intervensi/{intervention}/progres', [IntervensiController::class, 'updateProgress'])->name('intervensi.update-progres');
     });
 
-    // ─── Resolusi (Tahap 6) ──────────────────────────────────────
+    // ─── Resolusi (Tahap 5) ──────────────────────────────────────
     Route::middleware('role:admin,super_admin')->group(function () {
         Route::get('/resolusi/{issue}/tutup', [ResolusiController::class, 'create'])->name('resolusi.create');
         Route::post('/resolusi/{issue}', [ResolusiController::class, 'store'])->name('resolusi.store');

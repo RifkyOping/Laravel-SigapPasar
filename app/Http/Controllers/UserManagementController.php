@@ -25,7 +25,7 @@ class UserManagementController extends Controller
             'name'      => 'required|string|max:255',
             'email'     => 'required|email|unique:users,email',
             'password'  => 'required|string|min:8|confirmed',
-            'role'      => 'required|in:pimpinan,super_admin,admin,pengawas_siber,verifikator,petugas_lapangan',
+            'role'      => 'required|in:pimpinan,super_admin,admin,pengawas_siber,petugas_lapangan',
             'phone'     => 'nullable|string|max:20',
             'nip'       => 'nullable|string|max:30',
             'instansi'  => 'nullable|string|max:255',
@@ -47,7 +47,7 @@ class UserManagementController extends Controller
         $validated = $request->validate([
             'name'      => 'required|string|max:255',
             'email'     => 'required|email|unique:users,email,' . $user->id,
-            'role'      => 'required|in:pimpinan,super_admin,admin,pengawas_siber,verifikator,petugas_lapangan',
+            'role'      => 'required|in:pimpinan,super_admin,admin,pengawas_siber,petugas_lapangan',
             'phone'     => 'nullable|string|max:20',
             'nip'       => 'nullable|string|max:30',
             'instansi'  => 'nullable|string|max:255',

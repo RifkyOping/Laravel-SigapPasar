@@ -7,7 +7,7 @@
                 &larr; Kembali ke Detail Isu
             </a>
             <div style="display:flex;align-items:center;gap:0.75rem;">
-                <h1 style="font-size:1.5rem;font-weight:700;margin:0;">Hasil Akhir & Penutupan Isu (Tahap 6)</h1>
+                <h1 style="font-size:1.5rem;font-weight:700;margin:0;">Hasil Akhir & Penutupan Isu (Tahap 5)</h1>
                 <span class="cell-code" style="font-size:1.1rem;">{{ $issue->kode_isu }}</span>
             </div>
             <p style="color:var(--clr-ink-2);font-size:0.88rem;margin:0.25rem 0 0;">

@@ -9,9 +9,36 @@ class MasterDataController extends Controller
 {
     public function index(Request $request)
     {
-        $type  = $request->get('type', 'komoditas');
-        $items = MasterData::where('type', $type)->orderBy('name')->paginate(20);
-        return view('master.index', compact('items', 'type'));
+        $type   = $request->get('type', 'komoditas');
+        $search = $request->get('search');
+        $status = $request->get('status');
+
+        $query = MasterData::query();
+
+        if (!empty($type) && $type !== 'all' && in_array($type, ['komoditas', 'kabupaten', 'pasar'])) {
+            $query->where('type', $type);
+        }
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('code', 'like', "%{$search}%")
+                  ->orWhere('deskripsi', 'like', "%{$search}%")
+                  ->orWhere('satuan', 'like', "%{$search}%");
+            });
+        }
+
+        if ($status !== null && $status !== '') {
+            if ($status === 'active' || $status === '1') {
+                $query->where('is_active', true);
+            } elseif ($status === 'inactive' || $status === '0') {
+                $query->where('is_active', false);
+            }
+        }
+
+        $items = $query->orderBy('name')->paginate(20)->withQueryString();
+
+        return view('master.index', compact('items', 'type', 'search', 'status'));
     }
 
     public function create()

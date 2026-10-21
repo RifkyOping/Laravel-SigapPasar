@@ -113,10 +113,10 @@
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
                 <div class="sp-form-group">
-                    <label class="sp-label">Wilayah Kabupaten / Kota <span class="required">*</span></label>
+                    <label class="sp-label">Wilayah <span class="required">*</span></label>
                     <select name="kabupaten_id" required class="sp-select">
                         @foreach($kabupaten as $kab)
-                        <option value="{{ $kab->id }}" {{ old('kabupaten_id', $issue->kabupaten_id) == $kab->id ? 'selected' : '' }}>{{ $kab->name }}</option>
+                        <option value="{{ $kab->id }}" {{ old('kabupaten_id', $issue->kabupaten_id) == $kab->id ? 'selected' : '' }}>{{ preg_replace('/^Kabupaten\s+/i', '', $kab->name) }}</option>
                         @endforeach
                     </select>
                 </div>

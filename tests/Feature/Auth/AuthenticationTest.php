@@ -23,12 +23,13 @@ test('users can authenticate using the login screen', function () {
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
 
-    $this->post('/login', [
+    $response = $this->from('/login')->post('/login', [
         'email' => $user->email,
         'password' => 'wrong-password',
     ]);
 
     $this->assertGuest();
+    $response->assertSessionHasErrors(['email' => 'Email atau kata sandi yang Anda masukkan salah. Silakan periksa kembali.']);
 });
 
 test('users can logout', function () {

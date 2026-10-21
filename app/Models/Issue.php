@@ -15,7 +15,7 @@ class Issue extends Model
         'jumlah_interaksi', 'jumlah_mention', 'kutipan_postingan',
         'komoditas_id', 'kategori_isu', 'pasar_id', 'lokasi_spesifik', 'kabupaten_id',
         'status', 'prioritas', 'virality_score',
-        'input_by', 'verifikasi_by', 'assign_by',
+        'input_by', 'assign_by',
         'catatan_input', 'is_merged', 'merged_to',
     ];
 
@@ -91,9 +91,7 @@ class Issue extends Model
     public function pasar()         { return $this->belongsTo(MasterData::class, 'pasar_id'); }
     public function kabupaten()     { return $this->belongsTo(MasterData::class, 'kabupaten_id'); }
     public function inputBy()       { return $this->belongsTo(User::class, 'input_by'); }
-    public function verifikasiBy()  { return $this->belongsTo(User::class, 'verifikasi_by'); }
     public function assignBy()      { return $this->belongsTo(User::class, 'assign_by'); }
-    public function verifications() { return $this->hasMany(IssueVerification::class); }
     public function assignments()   { return $this->hasMany(FieldAssignment::class); }
     public function activeAssignment() { return $this->hasOne(FieldAssignment::class)->latest(); }
     public function interventions() { return $this->hasMany(Intervention::class); }

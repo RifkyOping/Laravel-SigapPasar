@@ -15,16 +15,16 @@ DOKUMEN SPESIFIKASI PROYEK: SIGAP PASAR
 
 1. DESKRIPSI UMUM
 --------------------------------------------------------------------------------
-"Sigap Pasar" adalah sebuah sistem informasi berbasis web yang dirancang untuk Dinas Koperasi dan UKM, Perindustrian dan Perdagangan Provinsi Sulawesi Barat dalam mendeteksi, memverifikasi, menindaklanjuti, dan menyelesaikan isu-isu terkait pasar (seperti lonjakan harga, kelangkaan stok, atau praktik curang) yang viral di media sosial. Sistem ini menjembatani laporan siber dengan tindakan nyata di lapangan (operasi pasar/intervensi) melalui rantai komando yang terstruktur di seluruh wilayah Sulawesi Barat.
+"Sigap Pasar" adalah sebuah sistem informasi berbasis web yang dirancang untuk Dinas Koperasi dan UKM, Perindustrian dan Perdagangan Provinsi Sulawesi Barat dalam mendeteksi, menindaklanjuti, dan menyelesaikan isu-isu terkait pasar (seperti lonjakan harga, kelangkaan stok, atau praktik curang) yang viral di media sosial. Sistem ini menjembatani laporan siber dengan tindakan nyata di lapangan (operasi pasar/intervensi) melalui rantai komando yang terstruktur di seluruh wilayah Sulawesi Barat.
 
 2. AKTOR DAN HAK AKSES (ROLE-BASED ACCESS CONTROL)
 --------------------------------------------------------------------------------
 Sistem ini melibatkan beberapa peran pengguna:
 - Pengawas Siber   : Bertugas memantau media sosial dan menginput data isu baru.
-- Verifikator      : Bertugas menyaring laporan, mengecek validitas/duplikasi, dan menentukan prioritas.
 - Admin            : Bertugas menugaskan petugas lapangan, menginput data intervensi, dan menutup isu.
 - Petugas Lapangan : Bertugas mengecek langsung ke lokasi pasar dan melaporkan kondisi riil.
 - Super Admin      : Mengelola data master (lokasi, komoditas) dan akun pengguna.
+- Pimpinan         : Memantau ringkasan eksekutif, peta sebaran isu wilayah, dan tren perkembangan harga komoditas.
 
 3. ALUR KERJA SISTEM (WORKFLOW)
 --------------------------------------------------------------------------------
@@ -32,30 +32,20 @@ Tahap 1: Deteksi dan Input Isu (Oleh Pengawas Siber)
 - Pengawas Siber mendeteksi isu viral dan menginput data ke dalam sistem.
 - Data yang diinput: Tanggal & waktu, platform sumber, link postingan, nama akun, jumlah interaksi/mention (virality), kutipan postingan, jenis komoditas, kategori isu, lokasi spesifik (pasar & kabupaten), serta bukti screenshot.
 
-Tahap 2: Verifikasi Laporan (Oleh Verifikator)
-- Verifikator memeriksa data yang masuk.
-- Tindakan Verifikator: 
-  * Mengecek potensi duplikasi dengan laporan lain (Merge Issue).
-  * Menentukan skala prioritas (Rendah, Sedang, Tinggi, Kritis).
-  * Menandai status validitas (Valid, Butuh Cek Lapangan, atau Hoaks).
-  * Memberikan catatan/saran tindakan.
-- Nama verifikator otomatis terekam di riwayat penanganan isu.
+Tahap 2: Penugasan & Pemilihan Isu Lapangan (Oleh Petugas Lapangan / Admin)
+- Laporan isu baru langsung masuk ke antrian laporan operasional dan siap dipilih oleh Petugas Lapangan.
+- Petugas Lapangan dapat langsung memilih/mengambil sendiri isu pasar di wilayahnya, atau Admin dapat menugaskan petugas spesifik secara terpadu.
+- Sistem mengirimkan notifikasi dan mencatat riwayat penugasan ke dalam audit trail.
 
-Tahap 3: Penugasan Lapangan (Oleh Admin)
-- Laporan yang lolos verifikasi diteruskan ke dashboard Admin.
-- Admin menugaskan Petugas Lapangan spesifik untuk mengecek lokasi.
-- Sistem mengirimkan notifikasi penugasan via email kepada Petugas Lapangan terkait.
-- Nama Admin yang memberikan tugas akan terekam dalam sistem.
-
-Tahap 4: Cek Fisik & Laporan Lapangan (Oleh Petugas Lapangan)
-- Petugas menuju lokasi dan melakukan verifikasi lapangan.
+Tahap 3: Cek Fisik & Laporan Lapangan (Oleh Petugas Lapangan)
+- Petugas menuju lokasi dan melakukan verifikasi faktual lapangan.
 - Data yang diinput: 
   * Bukti foto terbaru (dilengkapi timestamp dan watermark waktu).
   * Koordinat GPS (Check-in lokasi).
   * Harga aktual di lapangan untuk perbandingan.
   * Catatan hasil wawancara singkat atau temuan kondisi.
 
-Tahap 5: Intervensi dan Tindak Lanjut (Oleh Admin & Instansi)
+Tahap 4: Intervensi dan Tindak Lanjut (Oleh Admin & Instansi)
 - Jika temuan lapangan valid dan butuh tindakan, masuk ke tahap koordinasi (Dinas/Bulog).
 - Admin menginput data intervensi:
   * Jenis intervensi (contoh: Operasi Pasar, Sidak Gudang).
@@ -65,7 +55,7 @@ Tahap 5: Intervensi dan Tindak Lanjut (Oleh Admin & Instansi)
   * Nama Penanggung Jawab (PIC) dan instansi yang terlibat.
 - Admin dapat melakukan "Update Progress" secara berkala.
 
-Tahap 6: Hasil Akhir & Penutupan Isu (Oleh Admin)
+Tahap 5: Hasil Akhir & Penutupan Isu (Oleh Admin)
 - Setelah intervensi selesai, Admin mencatat hasil akhirnya.
 - Data yang diinput: 
   * Harga sebelum intervensi vs harga setelah intervensi.
@@ -83,7 +73,6 @@ Tahap 6: Hasil Akhir & Penutupan Isu (Oleh Admin)
 - users               : Menyimpan data kredensial dan role semua pengguna.
 - master_data         : Tabel referensi untuk komoditas dan lokasi/kabupaten.
 - issues              : Tabel utama penyimpan laporan (link, interaksi, dsb).
-- issue_verifications : Menyimpan catatan dan hasil verifikasi.
 - field_assignments   : Menyimpan data penugasan, hasil dari lapangan, dan GPS.
 - interventions       : Menyimpan data langkah operasi pasar/koordinasi.
 - resolutions         : Menyimpan harga akhir dan catatan penutupan.
@@ -95,8 +84,8 @@ Tahap 6: Hasil Akhir & Penutupan Isu (Oleh Admin)
 6.1 Tugas Utama Landing Page
 Sigap Pasar bukan produk yang dijual, melainkan sistem pemerintah. Maka landing
 page berfungsi sebagai gerbang resmi instansi dengan tiga tugas:
-  a. Mengarahkan petugas (Pengawas Siber, Verifikator, Admin, Petugas Lapangan,
-     Super Admin) masuk ke sistem secepat mungkin.
+  a. Mengarahkan petugas (Pengawas Siber, Admin, Petugas Lapangan, Super Admin,
+     Pimpinan) masuk ke sistem secepat mungkin.
   b. Menjelaskan secara transparan bagaimana satu isu pasar ditangani, dari
      postingan viral sampai harga kembali normal.
   c. Menunjukkan kinerja penanganan lewat statistik agregat (tanpa data sensitif).
@@ -129,7 +118,7 @@ Prinsip khas halaman ini:
      kasus yang menampilkan perjalanan isu dari postingan viral sampai selesai.
   2. Sisanya tenang: teks, tabel, daftar. Tidak ada kartu identik berulang,
      tidak ada bayangan abu-abu seragam, tidak ada gradien.
-  3. Penomoran hanya dipakai pada Alur 6 Tahap karena itu memang urutan.
+  3. Penomoran hanya dipakai pada Alur 5 Tahap karena itu memang urutan.
   4. Isi diambil dari dunia pasar Sulbar: komoditas, harga per kg, nama pasar,
      enam kabupaten. Bukan ilustrasi generik.
 
@@ -144,7 +133,7 @@ Prinsip khas halaman ini:
   |                                      |   Pasar Mamuju"  Facebook, 2.400   |
   | Sigap Pasar menghubungkan pantauan   |   interaksi                        |
   | media sosial dengan pengecekan       |  o Dilaporkan   (Pengawas Siber)   |
-  | langsung di pasar di enam kabupaten  |  o Diverifikasi (Verifikator)      |
+  | langsung di pasar di enam kabupaten  |  o Ditugaskan   (Admin)            |
   | Sulawesi Barat.                      |  o Dicek lapangan (Petugas)        |
   |                                      |  o Operasi pasar (Admin + Bulog)   |
   | [Masuk ke sistem] Lihat alur         |  * Selesai: Rp85.000 -> Rp62.000   |
@@ -158,10 +147,10 @@ Prinsip khas halaman ini:
   Sumber: endpoint agregat dari tabel issues dan issue_logs. Jika belum ada
   data, tampilkan "Belum ada data bulan ini", bukan angka karangan.
 
-  [3. Alur penanganan]  Timeline vertikal 6 tahap (urutan nyata), tiap tahap
+  [3. Alur penanganan]  Timeline vertikal 5 tahap (urutan nyata), tiap tahap
   menyebut: siapa pelakunya, apa yang dikerjakan, apa hasilnya.
-  Tahap 1 Deteksi isu -> 2 Verifikasi -> 3 Penugasan lapangan -> 4 Cek fisik
-  -> 5 Intervensi -> 6 Penutupan isu.
+  Tahap 1 Deteksi isu -> 2 Penugasan lapangan -> 3 Cek fisik -> 4 Intervensi
+  -> 5 Penutupan isu.
 
   [4. Peran dan akses]  Tabel dua kolom (Peran | Tugas dan yang dilihat setelah
   masuk) untuk 5 peran. Bukan kartu.
@@ -220,8 +209,8 @@ Salin seluruh blok di bawah ke AI coding assistant (Claude Code, Cursor, dll).
 
 --- MULAI PROMPT ---
 Peran: Kamu adalah desainer frontend utama untuk "Sigap Pasar", sistem informasi
-Diskoperindag Provinsi Sulawesi Barat yang mendeteksi, memverifikasi,
-menindaklanjuti, dan menutup isu pasar yang viral di media sosial (lonjakan
+Diskoperindag Provinsi Sulawesi Barat yang mendeteksi, menindaklanjuti,
+dan menutup isu pasar yang viral di media sosial (lonjakan
 harga, kelangkaan stok, praktik curang) di 6 kabupaten Sulawesi Barat.
 
 Tugas: Buat landing page untuk route "/" yang menjadi gerbang resmi sistem.
@@ -262,7 +251,7 @@ Struktur section (rata kiri, lebar maks 1200px):
 3. Ringkasan penanganan: satu baris tabel sederhana (isu masuk bulan ini, sudah
    selesai, rata-rata waktu penanganan, isu aktif). Ambil dari endpoint agregat;
    jika kosong tampilkan "Belum ada data bulan ini".
-4. Alur penanganan: timeline vertikal 6 tahap sesuai bagian 3 dokumen ini. Tiap
+4. Alur penanganan: timeline vertikal 5 tahap sesuai bagian 3 dokumen ini. Tiap
    tahap memuat pelaku, pekerjaan, dan hasil. Penomoran boleh dipakai di sini
    karena memang urutan.
 5. Peran dan akses: tabel dua kolom untuk 5 peran sesuai bagian 2 dokumen ini.

@@ -9,6 +9,8 @@ use App\Models\FieldAssignment;
 use App\Models\Intervention;
 use App\Models\Resolution;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SigapPasarWorkflowTest extends TestCase
@@ -52,18 +54,16 @@ class SigapPasarWorkflowTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function test_complete_6_stages_workflow(): void
+    public function test_complete_5_stages_workflow(): void
     {
         // 1. Setup users and master data
         $pengawas = User::where('role', 'pengawas_siber')->first();
-        $verifikator = User::where('role', 'verifikator')->first();
-        $admin = User::where('role', 'admin')->first();
+        $admin = User::where('role', 'admin')->first() ?? User::where('role', 'super_admin')->first();
         $petugas = User::where('role', 'petugas_lapangan')->first();
         $komoditas = MasterData::where('type', 'komoditas')->first();
         $kabupaten = MasterData::where('type', 'kabupaten')->first();
 
         $this->assertNotNull($pengawas);
-        $this->assertNotNull($verifikator);
         $this->assertNotNull($admin);
         $this->assertNotNull($petugas);
         $this->assertNotNull($komoditas);
@@ -103,23 +103,7 @@ class SigapPasarWorkflowTest extends TestCase
         $this->assertEquals('baru', $issue->status);
         $this->assertGreaterThan(0, $issue->virality_score);
 
-        // TAHAP 2: Verifikator verifies report
-        $verifData = [
-            'hasil_verifikasi'      => 'valid',
-            'prioritas_rekomendasi' => 'kritis',
-            'catatan_verifikasi'    => 'Laporan terkonfirmasi ramai diperbincangkan warganet lokal.',
-            'saran_tindakan'        => 'Segera cek kondisi stok di pasar induk.',
-        ];
-
-        $responseVerif = $this->actingAs($verifikator)->post("/verifikasi/{$issue->id}", $verifData);
-        $responseVerif->assertSessionHasNoErrors();
-        $responseVerif->assertRedirect(route('verifikasi.index'));
-
-        $issue->refresh();
-        $this->assertEquals('diverifikasi', $issue->status);
-        $this->assertEquals('kritis', $issue->prioritas);
-
-        // TAHAP 3: Admin assigns field officer
+        // TAHAP 2: Admin assigns field officer directly
         $assignData = [
             'petugas_id'        => $petugas->id,
             'tanggal_penugasan' => now()->toDateString(),
@@ -134,7 +118,7 @@ class SigapPasarWorkflowTest extends TestCase
         $assignment = FieldAssignment::where('issue_id', $issue->id)->first();
         $this->assertNotNull($assignment);
 
-        // TAHAP 4: Petugas Lapangan check-in GPS & submits field report
+        // TAHAP 3: Petugas Lapangan check-in GPS & submits field report
         $checkinResponse = $this->actingAs($petugas)->post("/laporan/{$assignment->id}/checkin", [
             'latitude'  => -7.2575,
             'longitude' => 112.7521,
@@ -155,7 +139,7 @@ class SigapPasarWorkflowTest extends TestCase
         $this->assertEquals('selesai', $assignment->status);
         $this->assertEquals(75000, $assignment->harga_aktual);
 
-        // TAHAP 5: Admin launches intervention
+        // TAHAP 4: Admin launches intervention
         $intvData = [
             'jenis_intervensi'  => 'operasi_pasar',
             'nama_intervensi'   => 'Operasi Pasar Cabai Murah Mandiri',
@@ -174,7 +158,7 @@ class SigapPasarWorkflowTest extends TestCase
         $issue->refresh();
         $this->assertEquals('intervensi', $issue->status);
 
-        // TAHAP 6: Admin closes issue with resolution
+        // TAHAP 5: Admin closes issue with resolution
         $resolusiData = [
             'harga_sebelum_intervensi' => 75000,
             'harga_setelah_intervensi' => 48000,
@@ -191,5 +175,74 @@ class SigapPasarWorkflowTest extends TestCase
 
         // Verify audit logs exist
         $this->assertGreaterThanOrEqual(4, $issue->logs()->count());
+    }
+
+    public function test_admin_can_create_intervention_with_optional_pdf_or_word_document(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::where('role', 'admin')->first() ?? User::where('role', 'super_admin')->first();
+        $komoditas = MasterData::where('type', 'komoditas')->first();
+        $kabupaten = MasterData::where('type', 'kabupaten')->first();
+
+        $issue = Issue::create([
+            'kode_isu'          => 'ISU-' . date('Ymd') . '-999',
+            'input_by'          => $admin->id,
+            'tanggal_temuan'    => now(),
+            'platform'          => 'Twitter/X',
+            'link_postingan'    => 'https://x.com/sulbar/status/1',
+            'nama_akun'         => '@sulbar',
+            'jumlah_interaksi'  => 1000,
+            'jumlah_mention'    => 50,
+            'kutipan_postingan' => 'Harga beras melonjak',
+            'komoditas_id'      => $komoditas->id,
+            'kategori_isu'      => 'lonjakan_harga',
+            'kabupaten_id'      => $kabupaten->id,
+            'status'            => 'di_lapangan',
+            'virality_score'    => 50,
+            'prioritas'         => 'tinggi',
+        ]);
+
+        // 1. Cek halaman form create intervensi menampilkan input dokumen pendukung
+        $formResponse = $this->actingAs($admin)->get("/intervensi/buat/{$issue->id}");
+        $formResponse->assertStatus(200);
+        $formResponse->assertSee('name="dokumen_pendukung"', false);
+
+        // 2. Submit form dengan file PDF
+        $fakePdf = UploadedFile::fake()->create('surat_tugas_operasi_pasar.pdf', 300, 'application/pdf');
+
+        $data = [
+            'jenis_intervensi'  => 'operasi_pasar',
+            'nama_intervensi'   => 'Operasi Beras SPHP Pasar Baru',
+            'deskripsi'         => 'Penyaluran beras medium bersama Bulog sebanyak 5 ton.',
+            'hasil_diharapkan'  => 'Harga kembali ke HET Rp 12.500/kg',
+            'tanggal_mulai'     => now()->toDateString(),
+            'target_selesai'    => now()->addDays(2)->toDateString(),
+            'pic_nama'          => 'Andi Irwan',
+            'pic_jabatan'       => 'Staf Pengendalian Pasar',
+            'dokumen_pendukung' => $fakePdf,
+        ];
+
+        $response = $this->actingAs($admin)->post("/intervensi/{$issue->id}", $data);
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect(route('issues.show', $issue));
+
+        $intervention = Intervention::where('nama_intervensi', 'Operasi Beras SPHP Pasar Baru')->first();
+        $this->assertNotNull($intervention);
+        $this->assertNotNull($intervention->file_dokumen);
+        $this->assertEquals('surat_tugas_operasi_pasar.pdf', $intervention->nama_dokumen);
+
+        // Verifikasi file tersimpan di storage public
+        Storage::disk('public')->assertExists($intervention->file_dokumen);
+
+        // Verifikasi record evidence juga tercatat otomatis
+        $evidence = $issue->evidences()->where('tahap', 'intervensi')->first();
+        $this->assertNotNull($evidence);
+        $this->assertEquals('surat_tugas_operasi_pasar.pdf', $evidence->file_name);
+
+        // 3. Verifikasi halaman detail menampilkan link dokumen
+        $detailResponse = $this->actingAs($admin)->get(route('issues.show', $issue));
+        $detailResponse->assertStatus(200);
+        $detailResponse->assertSee('surat_tugas_operasi_pasar.pdf');
     }
 }

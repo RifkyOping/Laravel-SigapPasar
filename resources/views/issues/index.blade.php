@@ -3,11 +3,6 @@
 
     {{-- Header --}}
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
-        <div>
-            <h1 style="font-size:1.4rem;font-weight:700;margin:0 0 0.25rem;">Pemantauan Isu Pasar & Media Siber</h1>
-            <p style="color:var(--clr-ink-2);font-size:0.85rem;margin:0;">Laporan deteksi lonjakan harga, kelangkaan pasokan, dan temuan komoditas pangan</p>
-        </div>
-
         @if(auth()->user()->isPengawasSiber() || auth()->user()->isRole(['admin','super_admin']))
         <a href="{{ route('issues.create') }}" class="sp-btn sp-btn-primary">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -45,11 +40,11 @@
             </div>
 
             <div>
-                <label class="sp-label" style="font-size:0.7rem;">Kabupaten/Kota</label>
+                <label class="sp-label" style="font-size:0.7rem;">Wilayah</label>
                 <select name="kabupaten" class="sp-select" style="padding:0.5rem 0.75rem;font-size:0.85rem;">
                     <option value="">Semua Wilayah</option>
                     @foreach($kabupaten as $kab)
-                        <option value="{{ $kab->id }}" {{ request('kabupaten') == $kab->id ? 'selected' : '' }}>{{ $kab->name }}</option>
+                        <option value="{{ $kab->id }}" {{ request('kabupaten') == $kab->id ? 'selected' : '' }}>{{ preg_replace('/^Kabupaten\s+/i', '', $kab->name) }}</option>
                     @endforeach
                 </select>
             </div>
@@ -79,7 +74,7 @@
                 <thead>
                     <tr>
                         <th>Kode Isu</th>
-                        <th>Komoditas & Wilayah</th>
+                        <th>Komoditas & Lokasi</th>
                         <th>Kutipan / Platform</th>
                         <th>Virality</th>
                         <th>Prioritas</th>
@@ -97,8 +92,12 @@
                             </a>
                         </td>
                         <td>
-                            @php $detailLokasi = $isu->lokasi_spesifik ?: ($isu->pasar->name ?? null); @endphp
-                            <span style="font-size:0.75rem;color:var(--clr-ink-3);">{{ $isu->kabupaten->name ?? '-' }}{{ $detailLokasi ? ' &bull; ' . $detailLokasi : '' }}</span>
+                            <strong style="color:var(--clr-ink);">{{ $isu->komoditas->name }}</strong><br>
+                            @php
+                                $kabName = preg_replace('/^Kabupaten\s+/i', '', $isu->kabupaten->name ?? '-');
+                                $detailLokasi = $isu->lokasi_spesifik ?: ($isu->pasar->name ?? null);
+                            @endphp
+                            <span style="font-size:0.75rem;color:var(--clr-ink-3);">{{ $kabName }}{{ $detailLokasi ? ' • ' . $detailLokasi : '' }}</span>
                         </td>
                         <td style="max-width:280px;">
                             <div style="font-size:0.82rem;color:var(--clr-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
@@ -127,7 +126,7 @@
                         </td>
                         <td style="text-align:right;white-space:nowrap;">
                             <a href="{{ route('issues.show', $isu) }}" class="sp-btn sp-btn-ghost sp-btn-sm">
-                                Detail
+                                {{ auth()->user()->isPimpinan() ? 'Lihat Progres' : 'Detail' }}
                             </a>
                         </td>
                     </tr>

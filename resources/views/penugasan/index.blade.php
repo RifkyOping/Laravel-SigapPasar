@@ -1,9 +1,9 @@
 <x-app-layout>
-    <x-slot name="title">Penugasan Petugas (Tahap 3)</x-slot>
+    <x-slot name="title">Penugasan Petugas (Tahap 2)</x-slot>
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
         <div>
-            <h1 style="font-size:1.4rem;font-weight:700;margin:0 0 0.25rem;">Penugasan Petugas (Tahap 3)</h1>
+            <h1 style="font-size:1.4rem;font-weight:700;margin:0 0 0.25rem;">Penugasan Petugas (Tahap 2)</h1>
             <p style="color:var(--clr-ink-2);font-size:0.85rem;margin:0;">
                 Tugaskan petugas spesifik untuk melakukan inspeksi fisik, cek harga riil, dan dokumentasi GPS di lokasi pasar.
             </p>
@@ -32,8 +32,8 @@
                 <thead>
                     <tr>
                         <th>Kode Isu</th>
-                        <th>Komoditas & Wilayah</th>
-                        <th>Kutipan / Catatan Verifikasi</th>
+                        <th>Komoditas & Lokasi</th>
+                        <th>Kutipan / Catatan Isu</th>
                         <th>Prioritas</th>
                         <th>Tugaskan Kepada & Catatan</th>
                         <th style="text-align:right;">Aksi</th>
@@ -48,16 +48,20 @@
                             </a>
                         </td>
                         <td style="vertical-align:top;padding-top:1.2rem;">
-                            @php $detailLokasi = $isu->lokasi_spesifik ?: ($isu->pasar->name ?? null); @endphp
-                            <span style="font-size:0.75rem;color:var(--clr-ink-3);">{{ $isu->kabupaten->name }}{{ $detailLokasi ? ' &bull; ' . $detailLokasi : '' }}</span>
+                            <strong style="color:var(--clr-ink);">{{ $isu->komoditas->name }}</strong><br>
+                            @php
+                                $kabName = preg_replace('/^Kabupaten\s+/i', '', $isu->kabupaten->name ?? '-');
+                                $detailLokasi = $isu->lokasi_spesifik ?: ($isu->pasar->name ?? null);
+                            @endphp
+                            <span style="font-size:0.75rem;color:var(--clr-ink-3);">{{ $kabName }}{{ $detailLokasi ? ' • ' . $detailLokasi : '' }}</span>
                         </td>
                         <td style="vertical-align:top;max-width:280px;padding-top:1.2rem;">
                             <div style="font-size:0.82rem;color:var(--clr-ink);margin-bottom:0.25rem;">
                                 "{{ Str::limit($isu->kutipan_postingan, 70) }}"
                             </div>
-                            @if($isu->verifications->last())
+                            @if($isu->catatan_input)
                             <span style="font-size:0.72rem;color:var(--clr-accent);">
-                                Saran: {{ Str::limit($isu->verifications->last()->saran_tindakan ?? $isu->verifications->last()->catatan_verifikasi, 60) }}
+                                Catatan: {{ Str::limit($isu->catatan_input, 60) }}
                             </span>
                             @endif
                         </td>
@@ -99,7 +103,7 @@
                     <tr>
                         <td colspan="6" style="text-align:center;padding:3rem 0;color:var(--clr-ink-3);">
                             <div style="font-size:1.1rem;font-weight:600;margin-bottom:0.25rem;">Tidak Ada Isu Menunggu Penugasan</div>
-                            <p style="font-size:0.85rem;margin:0;">Semua laporan terverifikasi telah diberikan instruksi penugasan lapangan.</p>
+                            <p style="font-size:0.85rem;margin:0;">Semua laporan telah diberikan instruksi penugasan lapangan.</p>
                         </td>
                     </tr>
                     @endforelse

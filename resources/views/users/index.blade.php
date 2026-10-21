@@ -4,7 +4,7 @@
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
         <div>
             <h1 style="font-size:1.4rem;font-weight:700;margin:0 0 0.25rem;">Manajemen Akun Pengguna & Peran</h1>
-            <p style="color:var(--clr-ink-2);font-size:0.85rem;margin:0;">Kelola hak akses aktor sistem: Pimpinan, Admin, Pengawas, Verifikator, dan Petugas.</p>
+            <p style="color:var(--clr-ink-2);font-size:0.85rem;margin:0;">Kelola hak akses aktor sistem: Pimpinan, Admin, Pengawas, dan Petugas.</p>
         </div>
         <a href="{{ route('users.create') }}" class="sp-btn sp-btn-primary">
             + Tambah Pengguna Baru

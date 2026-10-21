@@ -8,7 +8,8 @@ class FieldAssignment extends Model
 {
     protected $fillable = [
         'issue_id', 'petugas_id', 'assigned_by', 'tanggal_penugasan', 'tanggal_kunjungan',
-        'status', 'catatan_temuan', 'foto_bukti', 'latitude', 'longitude',
+        'status', 'metode_verifikasi', 'no_telepon_sumber', 'sosmed_sumber',
+        'catatan_temuan', 'foto_bukti', 'latitude', 'longitude',
         'harga_aktual', 'catatan_wawancara', 'checkin_at', 'catatan_admin',
     ];
 

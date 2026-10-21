@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Issue;
 use App\Models\Intervention;
 use App\Models\IssueLog;
+use App\Models\Evidence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class IntervensiController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. Antrian Isu yang Menunggu Tindakan Intervensi (Tahap 5 Awal):
+        // 1. Antrian Isu yang Menunggu Tindakan Intervensi (Tahap 4 Awal):
         // Isu yang telah dicek lapangan (di_lapangan), ditugaskan, atau diverifikasi,
         // yang belum memiliki intervensi dan belum selesai/ditutup.
         $antrianIsu = Issue::with([
@@ -21,7 +23,6 @@ class IntervensiController extends Controller
                 'pasar',
                 'assignments' => fn($q) => $q->latest(),
                 'assignments.petugas',
-                'verifications.verifikator',
             ])
             ->whereIn('status', ['di_lapangan', 'ditugaskan', 'diverifikasi'])
             ->whereDoesntHave('interventions')
@@ -48,21 +49,44 @@ class IntervensiController extends Controller
     public function store(Request $request, Issue $issue)
     {
         $validated = $request->validate([
-            'jenis_intervensi'  => 'required|in:operasi_pasar,sidak_gudang,koordinasi_bulog,rapat_koordinasi,penyuluhan,lainnya',
-            'nama_intervensi'   => 'required|string|max:255',
-            'deskripsi'         => 'required|string',
-            'hasil_diharapkan'  => 'nullable|string',
-            'tanggal_mulai'     => 'required|date',
-            'target_selesai'    => 'nullable|date|after_or_equal:tanggal_mulai',
-            'pic_nama'          => 'required|string|max:255',
-            'pic_jabatan'       => 'nullable|string|max:255',
-            'instansi_terlibat' => 'nullable|array',
+            'jenis_intervensi'    => 'required|in:operasi_pasar,sidak_gudang,koordinasi_bulog,rapat_koordinasi,penyuluhan,lainnya',
+            'nama_intervensi'     => 'required|string|max:255',
+            'deskripsi'           => 'required|string',
+            'hasil_diharapkan'    => 'nullable|string',
+            'tanggal_mulai'       => 'required|date',
+            'target_selesai'      => 'nullable|date|after_or_equal:tanggal_mulai',
+            'pic_nama'            => 'required|string|max:255',
+            'pic_jabatan'         => 'nullable|string|max:255',
+            'instansi_terlibat'   => 'nullable|array',
             'instansi_terlibat.*' => 'string|max:255',
+            'dokumen_pendukung'   => 'nullable|file|mimes:pdf,doc,docx|max:10240',
+        ], [
+            'dokumen_pendukung.mimes' => 'Format file dokumen pendukung harus berupa file PDF atau Word (.pdf, .doc, .docx).',
+            'dokumen_pendukung.max'   => 'Ukuran file dokumen pendukung maksimal 10 MB.',
         ]);
 
         $validated['issue_id']   = $issue->id;
         $validated['dibuat_by']  = Auth::id();
         $validated['status']     = 'sedang_berjalan';
+
+        if ($request->hasFile('dokumen_pendukung')) {
+            $file = $request->file('dokumen_pendukung');
+            $path = $file->store("intervensi/{$issue->id}", 'public');
+            $validated['file_dokumen'] = $path;
+            $validated['nama_dokumen'] = $file->getClientOriginalName();
+
+            Evidence::create([
+                'issue_id'    => $issue->id,
+                'uploaded_by' => Auth::id(),
+                'jenis'       => 'dokumen',
+                'tahap'       => 'intervensi',
+                'file_path'   => $path,
+                'file_name'   => $file->getClientOriginalName(),
+                'file_type'   => $file->getClientMimeType(),
+                'file_size'   => $file->getSize(),
+                'deskripsi'   => 'Dokumen Intervensi: ' . $validated['nama_intervensi'],
+            ]);
+        }
 
         Intervention::create($validated);
 

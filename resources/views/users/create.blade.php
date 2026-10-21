@@ -60,7 +60,6 @@
                         <option value="pimpinan" {{ old('role') === 'pimpinan' ? 'selected' : '' }}>Pimpinan (Ringkasan Eksekutif & Tren Harga)</option>
                         <option value="super_admin" {{ old('role') === 'super_admin' ? 'selected' : '' }}>Admin (Operasional Dinas, Master & Akun)</option>
                         <option value="pengawas_siber" {{ old('role') === 'pengawas_siber' ? 'selected' : '' }}>Pengawas (Input Deteksi)</option>
-                        <option value="verifikator" {{ old('role') === 'verifikator' ? 'selected' : '' }}>Verifikator (Verifikasi & Filter)</option>
                         <option value="petugas_lapangan" {{ old('role') === 'petugas_lapangan' ? 'selected' : '' }}>Petugas (Inspeksi Fisik & GPS)</option>
                     </select>
                 </div>

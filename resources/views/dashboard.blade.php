@@ -4,12 +4,9 @@
     {{-- Role Banner & Welcome --}}
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;">
         <div>
-            <h1 style="font-size:1.6rem;font-weight:700;margin:0 0 0.35rem;letter-spacing:-0.03em;">
+            <h1 style="font-size:1.6rem;font-weight:700;margin:0;letter-spacing:-0.03em;">
                 Selamat Datang, {{ $user->name }}
             </h1>
-            <p style="color:var(--clr-ink-2);font-size:0.9rem;margin:0;">
-                {{ $user->instansi ?? 'Pemerintah Provinsi' }} &bull; Peran: <span style="color:var(--clr-accent);font-weight:600;">{{ $user->role_label }}</span>
-            </p>
         </div>
 
         <div style="display:flex;gap:0.75rem;align-items:center;">
@@ -20,10 +17,10 @@
             </a>
             @endif
 
-            @if(auth()->user()->isRole(['verifikator','admin','super_admin']))
-            <a href="{{ route('verifikasi.index') }}" class="sp-btn sp-btn-secondary">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-                Verifikasi ({{ $stats['isuBaru'] }})
+            @if(auth()->user()->isRole(['admin','super_admin']))
+            <a href="{{ route('penugasan.index') }}" class="sp-btn sp-btn-secondary">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                Penugasan ({{ $stats['isuBaru'] }})
             </a>
             @endif
         </div>
@@ -55,7 +52,11 @@
                         <td class="cell-code">{{ $asgn->issue->kode_isu }}</td>
                         <td>
                             <strong style="color:var(--clr-ink);">{{ $asgn->issue->komoditas->name ?? '-' }}</strong><br>
-                            <span style="font-size:0.75rem;color:var(--clr-ink-3);">{{ $asgn->issue->kabupaten->name ?? '-' }}</span>
+                            @php
+                                $kabName = preg_replace('/^Kabupaten\s+/i', '', $asgn->issue->kabupaten->name ?? '-');
+                                $detailLokasi = $asgn->issue->lokasi_spesifik ?: ($asgn->issue->pasar->name ?? null);
+                            @endphp
+                            <span style="font-size:0.75rem;color:var(--clr-ink-3);">{{ $kabName }}{{ $detailLokasi ? ' • ' . $detailLokasi : '' }}</span>
                         </td>
                         <td>{{ \Carbon\Carbon::parse($asgn->tanggal_penugasan)->isoFormat('D MMM YYYY') }}</td>
                         <td>
@@ -80,7 +81,7 @@
         </div>
 
         <div class="sp-stat-card" style="border-left:3px solid var(--clr-baru);">
-            <span class="sp-stat-label">Menunggu Verifikasi</span>
+            <span class="sp-stat-label">Menunggu Penugasan</span>
             <div class="sp-stat-value" style="color:var(--clr-baru);">{{ $stats['isuBaru'] }}</div>
             <span class="sp-stat-sub">Laporan siber baru</span>
         </div>
@@ -106,7 +107,7 @@
         <div class="sp-stat-card" style="border-left:3px solid var(--clr-selesai);">
             <span class="sp-stat-label">Selesai / Ditutup</span>
             <div class="sp-stat-value" style="color:var(--clr-selesai);">{{ $stats['isuSelesai'] }}</div>
-            <span class="sp-stat-sub">SLA Rata-rata: {{ round($stats['avgSla'] ?? 0, 1) }} hari</span>
+            <span class="sp-stat-sub">Telah tuntas diselesaikan</span>
         </div>
     </div>
 
@@ -174,7 +175,6 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
             <div>
                 <h2 style="font-size:1.05rem;font-weight:600;margin:0;">Laporan Isu Terkini</h2>
-                <p style="color:var(--clr-ink-3);font-size:0.78rem;margin:0.2rem 0 0;">Daftar pantauan siber yang baru masuk dan sedang diproses</p>
             </div>
             <a href="{{ route('issues.index') }}" class="sp-btn sp-btn-ghost sp-btn-sm">
                 Lihat Semua Isu &rarr;
