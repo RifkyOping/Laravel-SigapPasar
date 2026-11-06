@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export COMPOSER_HOME=/opt/cpanel/composer/bin
+    - /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
+    - php artisan optimize:clear
