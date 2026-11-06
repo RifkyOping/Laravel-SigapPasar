@@ -95,11 +95,6 @@
                 <textarea name="kesimpulan" rows="4" required placeholder="Tuliskan evaluasi komprehensif, penurunan harga yang tercapai, dan rekomendasi pemantauan berkala (Minimal 20 karakter)..." class="sp-textarea">{{ old('kesimpulan') }}</textarea>
             </div>
 
-            <div class="sp-form-group">
-                <label class="sp-label">Catatan Tambahan / Arsip Administrasi</label>
-                <textarea name="catatan_akhir" rows="2" placeholder="Nomor surat dinas, arsip berita acara, dll..." class="sp-textarea">{{ old('catatan_akhir') }}</textarea>
-            </div>
-
             <div style="display:flex;justify-content:flex-end;gap:1rem;margin-top:2rem;">
                 <a href="{{ route('issues.show', $issue) }}" class="sp-btn sp-btn-secondary">Batal</a>
                 <button type="submit" class="sp-btn sp-btn-primary" style="background:var(--clr-selesai);color:#fff;">

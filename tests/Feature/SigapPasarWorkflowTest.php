@@ -2,12 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\MasterData;
-use App\Models\Issue;
 use App\Models\FieldAssignment;
 use App\Models\Intervention;
+use App\Models\Issue;
+use App\Models\MasterData;
 use App\Models\Resolution;
+use App\Models\User;
+use Database\Seeders\MasterDataSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -20,8 +22,8 @@ class SigapPasarWorkflowTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(\Database\Seeders\MasterDataSeeder::class);
-        $this->seed(\Database\Seeders\UserSeeder::class);
+        $this->seed(MasterDataSeeder::class);
+        $this->seed(UserSeeder::class);
     }
 
     public function test_landing_page_renders_successfully(): void
@@ -36,7 +38,7 @@ class SigapPasarWorkflowTest extends TestCase
     public function test_super_admin_can_access_dashboard_and_management(): void
     {
         $admin = User::where('role', 'super_admin')->first();
-        if (!$admin) {
+        if (! $admin) {
             $admin = User::factory()->create(['role' => 'super_admin']);
         }
 
@@ -82,17 +84,17 @@ class SigapPasarWorkflowTest extends TestCase
 
         // TAHAP 1: Pengawas Siber inputs issue
         $issueData = [
-            'tanggal_temuan'    => now()->format('Y-m-d H:i:s'),
-            'platform'          => 'Twitter/X',
-            'link_postingan'    => 'https://x.com/wargasby/status/123456',
-            'nama_akun'         => '@wargasby',
-            'jumlah_interaksi'  => 12500,
-            'jumlah_mention'    => 450,
+            'tanggal_temuan' => now()->format('Y-m-d H:i:s'),
+            'platform' => 'Twitter/X',
+            'link_postingan' => 'https://x.com/wargasby/status/123456',
+            'nama_akun' => '@wargasby',
+            'jumlah_interaksi' => 12500,
+            'jumlah_mention' => 450,
             'kutipan_postingan' => 'Harga cabai rawit di pasar naik drastis tembus 80rb per kilo!',
-            'komoditas_id'      => $komoditas->id,
-            'kategori_isu'      => 'lonjakan_harga',
-            'kabupaten_id'      => $kabupaten->id,
-            'catatan_input'     => 'Viral di linimasa siber warga lokal',
+            'komoditas_id' => $komoditas->id,
+            'kategori_isu' => 'lonjakan_harga',
+            'kabupaten_id' => $kabupaten->id,
+            'catatan_input' => 'Viral di linimasa siber warga lokal',
         ];
 
         $response = $this->actingAs($pengawas)->post('/isu', $issueData);
@@ -105,9 +107,9 @@ class SigapPasarWorkflowTest extends TestCase
 
         // TAHAP 2: Admin assigns field officer directly
         $assignData = [
-            'petugas_id'        => $petugas->id,
+            'petugas_id' => $petugas->id,
             'tanggal_penugasan' => now()->toDateString(),
-            'catatan_admin'     => 'Cek harga grosir dan lapak pedagang.',
+            'catatan_admin' => 'Cek harga grosir dan lapak pedagang.',
         ];
 
         $responseAssign = $this->actingAs($admin)->post("/penugasan/{$issue->id}", $assignData);
@@ -120,15 +122,15 @@ class SigapPasarWorkflowTest extends TestCase
 
         // TAHAP 3: Petugas Lapangan check-in GPS & submits field report
         $checkinResponse = $this->actingAs($petugas)->post("/laporan/{$assignment->id}/checkin", [
-            'latitude'  => -7.2575,
+            'latitude' => -7.2575,
             'longitude' => 112.7521,
         ]);
         $checkinResponse->assertSessionHasNoErrors();
 
         $laporanData = [
-            'harga_aktual'      => 75000,
+            'harga_aktual' => 75000,
             'tanggal_kunjungan' => now()->toDateString(),
-            'catatan_temuan'    => 'Stok cabai menipis dari tengkulak luar kota karena cuaca hujan deras.',
+            'catatan_temuan' => 'Stok cabai menipis dari tengkulak luar kota karena cuaca hujan deras.',
             'catatan_wawancara' => 'Pedagang menyatakan pasokan berkurang separuh sejak dua hari lalu.',
         ];
 
@@ -141,14 +143,14 @@ class SigapPasarWorkflowTest extends TestCase
 
         // TAHAP 4: Admin launches intervention
         $intvData = [
-            'jenis_intervensi'  => 'operasi_pasar',
-            'nama_intervensi'   => 'Operasi Pasar Cabai Murah Mandiri',
-            'deskripsi'         => 'Penyaluran pasokan cabai 2 ton dengan harga subsidi.',
-            'hasil_diharapkan'  => 'Menurunkan harga ke batas wajar Rp 45.000',
-            'tanggal_mulai'     => now()->toDateString(),
-            'target_selesai'    => now()->addDays(2)->toDateString(),
-            'pic_nama'          => 'Bambang Sudrajat',
-            'pic_jabatan'       => 'Kabid Ketahanan Pangan',
+            'jenis_intervensi' => 'operasi_pasar',
+            'nama_intervensi' => 'Operasi Pasar Cabai Murah Mandiri',
+            'deskripsi' => 'Penyaluran pasokan cabai 2 ton dengan harga subsidi.',
+            'hasil_diharapkan' => 'Menurunkan harga ke batas wajar Rp 45.000',
+            'tanggal_mulai' => now()->toDateString(),
+            'target_selesai' => now()->addDays(2)->toDateString(),
+            'pic_nama' => 'Bambang Sudrajat',
+            'pic_jabatan' => 'Kabid Ketahanan Pangan',
             'instansi_terlibat' => ['Dinas Perdagangan', 'Perum Bulog'],
         ];
 
@@ -162,9 +164,8 @@ class SigapPasarWorkflowTest extends TestCase
         $resolusiData = [
             'harga_sebelum_intervensi' => 75000,
             'harga_setelah_intervensi' => 48000,
-            'status_akhir'             => 'selesai',
-            'kesimpulan'               => 'Operasi pasar berhasil menstabilkan harga cabai kembali normal dalam 2 hari.',
-            'catatan_akhir'            => 'Arsip berita acara penutupan nomor 800/SP/2026.',
+            'status_akhir' => 'selesai',
+            'kesimpulan' => 'Operasi pasar berhasil menstabilkan harga cabai kembali normal dalam 2 hari.',
         ];
 
         $responseRes = $this->actingAs($admin)->post("/resolusi/{$issue->id}", $resolusiData);
@@ -186,21 +187,21 @@ class SigapPasarWorkflowTest extends TestCase
         $kabupaten = MasterData::where('type', 'kabupaten')->first();
 
         $issue = Issue::create([
-            'kode_isu'          => 'ISU-' . date('Ymd') . '-999',
-            'input_by'          => $admin->id,
-            'tanggal_temuan'    => now(),
-            'platform'          => 'Twitter/X',
-            'link_postingan'    => 'https://x.com/sulbar/status/1',
-            'nama_akun'         => '@sulbar',
-            'jumlah_interaksi'  => 1000,
-            'jumlah_mention'    => 50,
+            'kode_isu' => 'ISU-'.date('Ymd').'-999',
+            'input_by' => $admin->id,
+            'tanggal_temuan' => now(),
+            'platform' => 'Twitter/X',
+            'link_postingan' => 'https://x.com/sulbar/status/1',
+            'nama_akun' => '@sulbar',
+            'jumlah_interaksi' => 1000,
+            'jumlah_mention' => 50,
             'kutipan_postingan' => 'Harga beras melonjak',
-            'komoditas_id'      => $komoditas->id,
-            'kategori_isu'      => 'lonjakan_harga',
-            'kabupaten_id'      => $kabupaten->id,
-            'status'            => 'di_lapangan',
-            'virality_score'    => 50,
-            'prioritas'         => 'tinggi',
+            'komoditas_id' => $komoditas->id,
+            'kategori_isu' => 'lonjakan_harga',
+            'kabupaten_id' => $kabupaten->id,
+            'status' => 'di_lapangan',
+            'virality_score' => 50,
+            'prioritas' => 'tinggi',
         ]);
 
         // 1. Cek halaman form create intervensi menampilkan input dokumen pendukung
@@ -212,14 +213,14 @@ class SigapPasarWorkflowTest extends TestCase
         $fakePdf = UploadedFile::fake()->create('surat_tugas_operasi_pasar.pdf', 300, 'application/pdf');
 
         $data = [
-            'jenis_intervensi'  => 'operasi_pasar',
-            'nama_intervensi'   => 'Operasi Beras SPHP Pasar Baru',
-            'deskripsi'         => 'Penyaluran beras medium bersama Bulog sebanyak 5 ton.',
-            'hasil_diharapkan'  => 'Harga kembali ke HET Rp 12.500/kg',
-            'tanggal_mulai'     => now()->toDateString(),
-            'target_selesai'    => now()->addDays(2)->toDateString(),
-            'pic_nama'          => 'Andi Irwan',
-            'pic_jabatan'       => 'Staf Pengendalian Pasar',
+            'jenis_intervensi' => 'operasi_pasar',
+            'nama_intervensi' => 'Operasi Beras SPHP Pasar Baru',
+            'deskripsi' => 'Penyaluran beras medium bersama Bulog sebanyak 5 ton.',
+            'hasil_diharapkan' => 'Harga kembali ke HET Rp 12.500/kg',
+            'tanggal_mulai' => now()->toDateString(),
+            'target_selesai' => now()->addDays(2)->toDateString(),
+            'pic_nama' => 'Andi Irwan',
+            'pic_jabatan' => 'Staf Pengendalian Pasar',
             'dokumen_pendukung' => $fakePdf,
         ];
 

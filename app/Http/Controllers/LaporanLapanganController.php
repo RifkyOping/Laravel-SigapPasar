@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Issue;
-use App\Models\FieldAssignment;
 use App\Models\Evidence;
+use App\Models\FieldAssignment;
+use App\Models\Issue;
 use App\Models\IssueLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,28 +80,28 @@ class LaporanLapanganController extends Controller
 
         // Buat penugasan baru langsung oleh petugas
         $assignment = FieldAssignment::create([
-            'issue_id'          => $issue->id,
-            'petugas_id'        => Auth::id(),
-            'assigned_by'       => Auth::id(),
+            'issue_id' => $issue->id,
+            'petugas_id' => Auth::id(),
+            'assigned_by' => Auth::id(),
             'tanggal_penugasan' => now(),
-            'status'            => 'sedang_dikerjakan',
-            'catatan_admin'     => 'Dipilih langsung oleh petugas lapangan untuk inspeksi fisik.',
+            'status' => 'sedang_dikerjakan',
+            'catatan_admin' => 'Dipilih langsung oleh petugas lapangan untuk inspeksi fisik.',
         ]);
 
         $oldStatus = $issue->status;
         $issue->update([
-            'status'    => 'di_lapangan',
+            'status' => 'di_lapangan',
             'assign_by' => Auth::id(),
         ]);
 
         IssueLog::create([
-            'issue_id'    => $issue->id,
-            'user_id'     => Auth::id(),
-            'action'      => 'Tugas Dipilih oleh Petugas',
+            'issue_id' => $issue->id,
+            'user_id' => Auth::id(),
+            'action' => 'Tugas Dipilih oleh Petugas',
             'status_dari' => $oldStatus,
-            'status_ke'   => 'di_lapangan',
-            'deskripsi'   => "Petugas " . Auth::user()->name . " memilih isu ini untuk dilakukan pemeriksaan fisik lapangan.",
-            'ip_address'  => request()->ip(),
+            'status_ke' => 'di_lapangan',
+            'deskripsi' => 'Petugas '.Auth::user()->name.' memilih isu ini untuk dilakukan pemeriksaan fisik lapangan.',
+            'ip_address' => request()->ip(),
         ]);
 
         return redirect()->route('laporan.show', $assignment)
@@ -110,14 +110,15 @@ class LaporanLapanganController extends Controller
 
     public function show(FieldAssignment $assignment)
     {
-        abort_unless($assignment->petugas_id === Auth::id(), 403);
+        abort_unless($assignment->petugas_id === Auth::id(), 403, 'Anda tidak memiliki wewenang untuk mengakses tugas ini.');
         $assignment->load(['issue.komoditas', 'issue.kabupaten', 'assignedBy', 'issue.evidences']);
+
         return view('laporan.show', compact('assignment'));
     }
 
     public function checkin(Request $request, FieldAssignment $assignment)
     {
-        abort_unless($assignment->petugas_id === Auth::id(), 403);
+        abort_unless($assignment->petugas_id === Auth::id(), 403, 'Anda tidak memiliki wewenang untuk mengakses tugas ini.');
 
         $metode = $request->input('metode_verifikasi', 'offline');
 
@@ -125,7 +126,7 @@ class LaporanLapanganController extends Controller
             $validated = $request->validate([
                 'metode_verifikasi' => 'required|in:offline,online',
                 'no_telepon_sumber' => 'nullable|string|max:50',
-                'sosmed_sumber'     => 'nullable|string|max:255',
+                'sosmed_sumber' => 'nullable|string|max:255',
             ]);
 
             if (empty(trim($validated['no_telepon_sumber'] ?? '')) && empty(trim($validated['sosmed_sumber'] ?? ''))) {
@@ -135,13 +136,13 @@ class LaporanLapanganController extends Controller
             }
 
             $assignment->update([
-                'status'            => 'sedang_dikerjakan',
+                'status' => 'sedang_dikerjakan',
                 'metode_verifikasi' => 'online',
                 'no_telepon_sumber' => $validated['no_telepon_sumber'] ?? null,
-                'sosmed_sumber'     => $validated['sosmed_sumber'] ?? null,
-                'latitude'          => null,
-                'longitude'         => null,
-                'checkin_at'        => now(),
+                'sosmed_sumber' => $validated['sosmed_sumber'] ?? null,
+                'latitude' => null,
+                'longitude' => null,
+                'checkin_at' => now(),
             ]);
 
             $assignment->issue->update(['status' => 'di_lapangan']);
@@ -150,10 +151,10 @@ class LaporanLapanganController extends Controller
             $deskripsiKontak = implode(' / ', $kontak);
 
             IssueLog::create([
-                'issue_id'   => $assignment->issue_id,
-                'user_id'    => Auth::id(),
-                'action'     => 'Verifikasi Online',
-                'deskripsi'  => "Petugas melakukan validasi online melalui sumber: {$deskripsiKontak}",
+                'issue_id' => $assignment->issue_id,
+                'user_id' => Auth::id(),
+                'action' => 'Verifikasi Online',
+                'deskripsi' => "Petugas melakukan validasi online melalui sumber: {$deskripsiKontak}",
                 'ip_address' => request()->ip(),
             ]);
 
@@ -161,25 +162,25 @@ class LaporanLapanganController extends Controller
         } else {
             $validated = $request->validate([
                 'metode_verifikasi' => 'nullable|in:offline,online',
-                'latitude'          => 'required|numeric|between:-90,90',
-                'longitude'         => 'required|numeric|between:-180,180',
+                'latitude' => 'required|numeric|between:-90,90',
+                'longitude' => 'required|numeric|between:-180,180',
             ]);
 
             $assignment->update([
-                'status'            => 'sedang_dikerjakan',
+                'status' => 'sedang_dikerjakan',
                 'metode_verifikasi' => 'offline',
-                'latitude'          => $validated['latitude'],
-                'longitude'         => $validated['longitude'],
-                'checkin_at'        => now(),
+                'latitude' => $validated['latitude'],
+                'longitude' => $validated['longitude'],
+                'checkin_at' => now(),
             ]);
 
             $assignment->issue->update(['status' => 'di_lapangan']);
 
             IssueLog::create([
-                'issue_id'   => $assignment->issue_id,
-                'user_id'    => Auth::id(),
-                'action'     => 'Check-in Lokasi',
-                'deskripsi'  => "Petugas check-in di koordinat: {$validated['latitude']}, {$validated['longitude']}",
+                'issue_id' => $assignment->issue_id,
+                'user_id' => Auth::id(),
+                'action' => 'Check-in Lokasi',
+                'deskripsi' => "Petugas check-in di koordinat: {$validated['latitude']}, {$validated['longitude']}",
                 'ip_address' => request()->ip(),
             ]);
 
@@ -189,14 +190,14 @@ class LaporanLapanganController extends Controller
 
     public function submitLaporan(Request $request, FieldAssignment $assignment)
     {
-        abort_unless($assignment->petugas_id === Auth::id(), 403);
+        abort_unless($assignment->petugas_id === Auth::id(), 403, 'Anda tidak memiliki wewenang untuk mengakses tugas ini.');
 
         $validated = $request->validate([
-            'harga_aktual'       => 'required|numeric|min:0',
-            'catatan_temuan'     => 'nullable|string',
-            'catatan_wawancara'  => 'nullable|string',
-            'tanggal_kunjungan'  => 'required|date',
-            'foto_bukti'         => 'nullable|file|mimes:jpg,jpeg,png,webp|max:10240',
+            'harga_aktual' => 'required|numeric|min:0',
+            'catatan_temuan' => 'nullable|string',
+            'catatan_wawancara' => 'nullable|string',
+            'tanggal_kunjungan' => 'required|date',
+            'foto_bukti' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:10240',
         ]);
 
         // Upload foto
@@ -205,26 +206,26 @@ class LaporanLapanganController extends Controller
             $validated['foto_bukti'] = $path;
 
             Evidence::create([
-                'issue_id'    => $assignment->issue_id,
+                'issue_id' => $assignment->issue_id,
                 'uploaded_by' => Auth::id(),
-                'jenis'       => 'foto_lapangan',
-                'tahap'       => 'lapangan',
-                'file_path'   => $path,
-                'file_name'   => $request->file('foto_bukti')->getClientOriginalName(),
-                'file_type'   => $request->file('foto_bukti')->getClientMimeType(),
-                'file_size'   => $request->file('foto_bukti')->getSize(),
-                'metadata'    => [
+                'jenis' => 'foto_lapangan',
+                'tahap' => 'lapangan',
+                'file_path' => $path,
+                'file_name' => $request->file('foto_bukti')->getClientOriginalName(),
+                'file_type' => $request->file('foto_bukti')->getClientMimeType(),
+                'file_size' => $request->file('foto_bukti')->getSize(),
+                'metadata' => [
                     'timestamp' => now()->toIso8601String(),
-                    'metode'    => $assignment->metode_verifikasi,
-                    'lat'       => $assignment->latitude,
-                    'lng'       => $assignment->longitude,
-                    'kontak'    => $assignment->no_telepon_sumber ?: $assignment->sosmed_sumber,
+                    'metode' => $assignment->metode_verifikasi,
+                    'lat' => $assignment->latitude,
+                    'lng' => $assignment->longitude,
+                    'kontak' => $assignment->no_telepon_sumber ?: $assignment->sosmed_sumber,
                 ],
             ]);
         }
 
         $extraUpdates = ['status' => 'selesai'];
-        if (!$assignment->checkin_at) {
+        if (! $assignment->checkin_at) {
             $extraUpdates['checkin_at'] = now();
         }
 
@@ -233,11 +234,11 @@ class LaporanLapanganController extends Controller
 
         $metodeLabel = ($assignment->metode_verifikasi === 'online') ? 'Cek Online' : 'Cek Offline';
         IssueLog::create([
-            'issue_id'   => $assignment->issue_id,
-            'user_id'    => Auth::id(),
-            'action'     => 'Laporan Lapangan Dikirim',
-            'status_ke'  => 'laporan_selesai',
-            'deskripsi'  => "Harga aktual: Rp " . number_format($validated['harga_aktual'], 0, ',', '.') . " ({$metodeLabel})",
+            'issue_id' => $assignment->issue_id,
+            'user_id' => Auth::id(),
+            'action' => 'Laporan Lapangan Dikirim',
+            'status_ke' => 'laporan_selesai',
+            'deskripsi' => 'Harga aktual: Rp '.number_format($validated['harga_aktual'], 0, ',', '.')." ({$metodeLabel})",
             'ip_address' => request()->ip(),
         ]);
 
